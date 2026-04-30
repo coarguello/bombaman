@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --grid-template-columns-15: repeat(15, minmax(0, 1fr));
+}
+
+body {
+  @apply bg-zinc-950 text-zinc-100 font-sans overflow-hidden;
+}
+
+/* Custom game colors */
+.tile-steel { @apply bg-zinc-600 border border-zinc-700 shadow-inner; }
+.tile-crate { @apply bg-amber-800 border border-amber-900 rounded-sm shadow-md; }
+.tile-empty { @apply bg-zinc-900/50 border border-zinc-800/30; }
+.bomb { @apply bg-red-600 rounded-full shadow-[0_0_15px_rgba(220,38,38,0.5)] animate-pulse; }
+.explosion { @apply bg-orange-400 shadow-[0_0_20px_rgba(251,146,60,0.8)] z-10; }
+

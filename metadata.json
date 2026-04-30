@@ -1,0 +1,6 @@
+{
+  "name": "Bomber-React",
+  "description": "A classic Bomberman clone with tile-based movement, bomb placement, and cross-shaped explosions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
