@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { LogOut, Sparkles, Trophy } from 'lucide-react';
-import { TileType, EnemyType, Position, Bomb, Explosion, Enemy } from '../types/game';
-import { GRID_SIZE } from '../constants/game';
+import { TileType, EnemyType, Position, Bomb, Explosion, Enemy, SkinConfig } from '../types/game';
+import { GRID_SIZE, BOMB_TIMER } from '../constants/game';
+import { PlayerAvatar } from './PlayerAvatar';
+import { STORE_CATALOG } from '../constants/store';
 
 interface GameBoardProps {
   grid: TileType[][];
@@ -13,11 +15,15 @@ interface GameBoardProps {
   explosions: Explosion[];
   playerPos: Position;
   direction: 'up' | 'down' | 'left' | 'right';
+  skin: SkinConfig;
   globalCratesDestroyed: number;
   isGameOver: boolean;
   isLevelCleared: boolean;
   score: number;
-  onResetGame: () => void;
+  level: number;
+  spikesActive: boolean;
+  onRestartLevel: () => void;
+  onGoToMenu: () => void;
   onStartNextLevel: () => void;
 }
 
@@ -31,11 +37,15 @@ export function GameBoard({
   explosions,
   playerPos,
   direction,
+  skin,
   globalCratesDestroyed,
   isGameOver,
   isLevelCleared,
   score,
-  onResetGame,
+  level,
+  spikesActive,
+  onRestartLevel,
+  onGoToMenu,
   onStartNextLevel
 }: GameBoardProps) {
   return (
@@ -61,9 +71,125 @@ export function GameBoard({
                 className={`transition-colors duration-300 relative ${
                   tile === TileType.STEEL ? 'tile-steel' : 
                   tile === TileType.CRATE ? 'tile-crate' : 
+                  tile === TileType.SPIKE ? (spikesActive ? 'bg-zinc-800' : 'bg-zinc-900') :
+                  (tile >= TileType.CONVEYOR_LEFT && tile <= TileType.CONVEYOR_DOWN) ? 'bg-zinc-800' :
                   'tile-empty'
                 }`}
               >
+                {/* Spikes rendering */}
+                {tile === TileType.SPIKE && (
+                  <div className="absolute inset-0 overflow-hidden">
+                    {/* Grid 2x2: cada celda ocupa 50% del tile, el spike se centra dentro */}
+                    {[0, 1, 2, 3].map((i) => {
+                      const col = i % 2;       // 0 = izquierda, 1 = derecha
+                      const row = Math.floor(i / 2); // 0 = arriba, 1 = abajo
+
+                      // Jitter determinístico pequeño (±8% de la mitad del tile)
+                      const s1 = Math.sin((x * 17.3 + y * 41.7 + i * 23.9) * 43758.5453);
+                      const jitter = (s1 - Math.floor(s1) - 0.5) * 0.16;
+
+                      // Posición central del spike dentro de su cuadrante
+                      const cx = (col + 0.5 + jitter) * 50; // porcentaje horizontal
+                      const cy = (row + 0.5 + jitter) * 50; // porcentaje vertical
+
+                      // Tamaño del spike: ~35% del tile
+                      const sw = tileSize * 0.34;
+                      const sh = tileSize * 0.40;
+
+                      // Pequeña rotación aleatoria (±10°)
+                      const s2 = Math.sin((x * 5.3 + y * 9.1 + i * 7.7) * 43758.5453);
+                      const rot = (s2 - Math.floor(s2) - 0.5) * 20;
+
+                      const activeColor   = '#ff2222';
+                      const inactiveColor = '#3f3f46';
+                      const activeGlow    = '0 0 6px rgba(255,60,60,0.8), 0 0 12px rgba(255,30,30,0.4)';
+                      const inactiveGlow  = '0 1px 3px rgba(0,0,0,0.6)';
+
+                      // IDs de gradiente únicos por tile e índice
+                      const gradIdAct = `sg-a-${x}-${y}-${i}`;
+                      const gradIdIna = `sg-i-${x}-${y}-${i}`;
+
+                      return (
+                        <motion.svg
+                          key={i}
+                          viewBox="0 0 100 100"
+                          preserveAspectRatio="none"
+                          style={{
+                            position: 'absolute',
+                            width: sw,
+                            height: sh,
+                            left: `calc(${cx}% - ${sw / 2}px)`,
+                            top: `calc(${cy}% - ${sh / 2}px)`,
+                            originX: '50%',
+                            originY: '100%',
+                            rotate: rot,
+                            overflow: 'visible',
+                          }}
+                          animate={{
+                            scaleY: spikesActive ? 1 : 0.12,
+                            filter: spikesActive ? `drop-shadow(${activeGlow})` : `drop-shadow(${inactiveGlow})`,
+                          }}
+                          transition={{ type: 'spring', stiffness: 380, damping: 22, delay: i * 0.04 }}
+                        >
+                          <defs>
+                            {/* Gradiente activo (rojo) */}
+                            <linearGradient id={gradIdAct} x1="0%" y1="100%" x2="100%" y2="0%">
+                              <stop offset="0%" stopColor="#7f0000" />
+                              <stop offset="55%" stopColor="#ef4444" />
+                              <stop offset="100%" stopColor="#fca5a5" />
+                            </linearGradient>
+                            {/* Gradiente inactivo (gris metálico) */}
+                            <linearGradient id={gradIdIna} x1="0%" y1="100%" x2="100%" y2="0%">
+                              <stop offset="0%" stopColor="#18181b" />
+                              <stop offset="55%" stopColor="#52525b" />
+                              <stop offset="100%" stopColor="#a1a1aa" />
+                            </linearGradient>
+                          </defs>
+                          {/* Cuerpo del spike - cambia gradiente según estado */}
+                          <motion.polygon
+                            points="50,2 5,98 95,98"
+                            fill={spikesActive ? `url(#${gradIdAct})` : `url(#${gradIdIna})`}
+                            stroke={spikesActive ? 'rgba(220,38,38,0.4)' : 'rgba(82,82,91,0.3)'}
+                            strokeWidth="1.5"
+                            animate={{ opacity: spikesActive ? 1 : 0.55 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                          {/* Brillo especular en la cara izquierda */}
+                          <polygon
+                            points="50,2 20,55 50,55"
+                            fill="rgba(255,255,255,0.14)"
+                            style={{ pointerEvents: 'none' }}
+                          />
+                          {/* Línea de borde afilado en la punta */}
+                          <line
+                            x1="50" y1="2" x2="50" y2="30"
+                            stroke="rgba(255,255,255,0.25)"
+                            strokeWidth="1"
+                          />
+                        </motion.svg>
+                      );
+                    })}
+                  </div>
+                )}
+
+                
+                {/* Conveyor rendering */}
+                {(tile >= TileType.CONVEYOR_LEFT && tile <= TileType.CONVEYOR_DOWN) && (
+                  <div className="absolute inset-0 flex items-center justify-center text-zinc-500 opacity-50">
+                    <motion.div
+                      animate={{
+                        x: tile === TileType.CONVEYOR_LEFT ? [-2, 2, -2] : tile === TileType.CONVEYOR_RIGHT ? [2, -2, 2] : 0,
+                        y: tile === TileType.CONVEYOR_UP ? [-2, 2, -2] : tile === TileType.CONVEYOR_DOWN ? [2, -2, 2] : 0,
+                      }}
+                      transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }}
+                    >
+                      {tile === TileType.CONVEYOR_LEFT && '←'}
+                      {tile === TileType.CONVEYOR_RIGHT && '→'}
+                      {tile === TileType.CONVEYOR_UP && '↑'}
+                      {tile === TileType.CONVEYOR_DOWN && '↓'}
+                    </motion.div>
+                  </div>
+                )}
                 {isDoor && (
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -154,35 +280,85 @@ export function GameBoard({
         )}
       </div>
 
-      {/* Render Bombs */}
+       {/* Render Bombs */}
       <AnimatePresence>
-        {bombs.map(bomb => (
-          <motion.div
-            key={bomb.id}
-            initial={{ scale: 0, rotate: -45 }}
-            animate={{ scale: 1.1, rotate: 0 }}
-            exit={{ scale: 2, opacity: 0 }}
-            className="absolute bomb"
-            style={{
-              left: 8 + bomb.x * tileSize + (tileSize * 0.1),
-              top: 8 + bomb.y * tileSize + (tileSize * 0.1),
-              width: tileSize * 0.8,
-              height: tileSize * 0.8,
-              margin: tileSize * 0.1,
-            }}
-          />
-        ))}
+        {bombs.map(bomb => {
+          const bombItem = STORE_CATALOG.find(i => i.id === skin.bomb);
+          const fireItem = STORE_CATALOG.find(i => i.id === skin.fire);
+          const bombClass = bombItem?.value || 'bg-zinc-900 border-zinc-950';
+          const fireClass = fireItem?.value || 'bg-yellow-400';
+
+          return (
+            <motion.div
+              key={bomb.id}
+              initial={bomb.isFlying ? { 
+                left: 8 + bomb.startX! * tileSize + (tileSize * 0.1), 
+                top: 8 + bomb.startY! * tileSize + (tileSize * 0.1), 
+                scale: 0.8 
+              } : { 
+                left: 8 + bomb.x * tileSize + (tileSize * 0.1), 
+                top: 8 + bomb.y * tileSize + (tileSize * 0.1),
+                scale: 0 
+              }}
+              animate={{ 
+                left: 8 + bomb.x * tileSize + (tileSize * 0.1), 
+                top: 8 + bomb.y * tileSize + (tileSize * 0.1), 
+                scale: 1 
+              }}
+              transition={bomb.isFlying ? { duration: 0.25, ease: "easeOut" } : { duration: 0.15 }}
+              exit={{ scale: 1.5, opacity: 0 }}
+              className={`absolute flex items-center justify-center ${bomb.isFlying ? 'z-30 shadow-2xl drop-shadow-[0_20px_20px_rgba(0,0,0,0.8)]' : 'z-10'}`}
+              style={{
+                width: tileSize * 0.8,
+                height: tileSize * 0.8,
+              }}
+            >
+              {/* Bomb Body */}
+              <div className={`relative w-[85%] h-[85%] rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.8)] border-[3px] flex justify-center ${bombClass}`}>
+                {/* Highlight (Spherical effect) */}
+                <div className="absolute top-[10%] left-[20%] w-[25%] h-[15%] bg-white/20 rounded-full rotate-[-30deg]" />
+                
+                {/* Fuse & Fire Container (Tilted) */}
+                <div className="absolute -top-[50%] w-0 h-[50%] flex justify-center rotate-[60deg] origin-bottom">
+                  {/* The Fuse */}
+                  <div className="absolute w-[4px] h-full bg-[#8B5A2B] rounded-t-sm" />
+
+                  {/* Animated Fire on Fuse */}
+                  <motion.div
+                    initial={{ top: "-10%" }}
+                    animate={{ top: "100%" }}
+                    transition={{ duration: BOMB_TIMER / 1000, ease: "linear" }}
+                    className="absolute z-10 flex items-center justify-center"
+                  >
+                    {/* Fire Glow/Spark */}
+                    <motion.div 
+                      animate={{ scale: [1, 1.5, 1], opacity: [0.8, 1, 0.8] }}
+                      transition={{ duration: 0.15, repeat: Infinity }}
+                      className={`w-4 h-4 rounded-full blur-[2px] absolute ${fireClass}`}
+                    />
+                    {/* Fire Core */}
+                    <div className="w-2 h-2 bg-white rounded-full relative z-10" />
+                    <div className={`w-3 h-3 rounded-full absolute mix-blend-screen ${fireClass} opacity-80`} />
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
       </AnimatePresence>
 
       {/* Render Explosions */}
-      {explosions.map(explosion => 
-        explosion.tiles.map((tile, idx) => (
+      {explosions.map(explosion => {
+        const fireItem = STORE_CATALOG.find(i => i.id === skin.fire);
+        const fireClass = fireItem?.value || 'bg-yellow-400';
+        
+        return explosion.tiles.map((tile, idx) => (
           <motion.div
             key={`${explosion.id}-${idx}`}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute explosion"
+            className={`absolute z-10 blur-[2px] shadow-[0_0_20px_rgba(255,255,255,0.3)] ${fireClass}`}
             style={{
               left: 8 + tile.x * tileSize + (tileSize * 0.1),
               top: 8 + tile.y * tileSize + (tileSize * 0.1),
@@ -190,8 +366,8 @@ export function GameBoard({
               height: tileSize * 0.8,
             }}
           />
-        ))
-      )}
+        ));
+      })}
 
       {/* Render Player - SQUARE BLOCK STYLE */}
       {!isGameOver && (
@@ -204,39 +380,19 @@ export function GameBoard({
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
           style={{ width: tileSize, height: tileSize }}
         >
-          {/* Character Body - Strict Square with rounded-lg */}
-          <div className={`relative w-[85%] h-[85%] rounded-lg shadow-lg border-b-4 flex items-center justify-center overflow-hidden transition-colors duration-500 ${
-            globalCratesDestroyed >= 500 ? 'bg-emerald-400 border-emerald-600' :
-            globalCratesDestroyed >= 100 ? 'bg-cyan-100 border-cyan-300' :
-            globalCratesDestroyed >= 5 ? 'bg-zinc-100 border-zinc-400' :
-            'bg-white border-zinc-300'
-          }`}>
-            {/* Trail Effect (Static glow for simplicity) */}
-            {globalCratesDestroyed >= 5 && (
-              <div className={`absolute inset-0 opacity-20 ${
-                globalCratesDestroyed >= 500 ? 'bg-emerald-300 animate-pulse' :
-                globalCratesDestroyed >= 100 ? 'bg-cyan-200' :
-                'bg-zinc-300'
-              }`} />
-            )}
-            
-            {/* Face/Visor Panel - Always Looking Forward, shift on sides */}
-            <div className={`absolute w-full h-full transition-all duration-200 flex justify-center ${
-              direction === 'left' ? '-translate-x-2' : 
-              direction === 'right' ? 'translate-x-2' : 
-              ''
-            }`}>
-              
-              {/* The Visor (Las Gafas) - Centered horizontally, slightly higher vertically */}
-              <div className="mt-[15%] w-[88%] h-[45%] bg-sky-500 rounded-md border border-sky-600 flex items-center justify-center gap-2 shadow-inner">
-                {/* Inner circles - Same color tone */}
-                <div className="w-[32%] h-[65%] bg-sky-400/40 rounded-full border border-sky-400/10" />
-                <div className="w-[32%] h-[65%] bg-sky-400/40 rounded-full border border-sky-400/10" />
-              </div>
-            </div>
-
-            {/* Feet/Bottom Detail */}
-            <div className="absolute bottom-0 w-full h-[12%] bg-zinc-200 rounded-b-lg" />
+          {/* Render avatar at 128px and scale down to fit tile */}
+          <div 
+            style={{ 
+              width: 128, 
+              height: 128, 
+              transform: `scale(${tileSize / 128})`,
+              transformOrigin: 'top left',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+          >
+            <PlayerAvatar skin={skin} direction={direction} animate={false} />
           </div>
         </motion.div>
       )}
@@ -287,16 +443,23 @@ export function GameBoard({
             id="game-over-screen"
           >
             <Sparkles className="w-16 h-16 text-yellow-400 mb-4 animate-bounce" />
-            <h2 className="text-4xl font-bold text-white mb-2">FIN DE JUEGO</h2>
+            <h2 className="text-4xl font-bold text-white mb-1">FIN DE JUEGO</h2>
+            <p className="text-zinc-500 text-sm font-mono mb-1">NIVEL {level}</p>
             <p className="text-zinc-400 font-mono mb-8 flex items-center gap-2">
               <Trophy className="w-4 h-4 text-emerald-400" />
-              PUNTAJE FINAL: {score}
+              PUNTAJE: {score}
             </p>
             <button 
-              onClick={onResetGame}
-              className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-transform active:scale-95 cursor-pointer"
+              onClick={onRestartLevel}
+              className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-transform active:scale-95 cursor-pointer mb-3"
             >
-              JUGAR DE NUEVO
+              JUGAR DE NUEVO (NIVEL {level})
+            </button>
+            <button
+              onClick={onGoToMenu}
+              className="px-6 py-2 text-zinc-400 text-sm hover:text-white transition-colors cursor-pointer"
+            >
+              Ir al Menú
             </button>
           </motion.div>
         )}
