@@ -72,42 +72,34 @@ export function GameBoard({
                 style={{ width: tileSize, height: tileSize }}
                 className={`transition-colors duration-300 relative ${
                   tile === TileType.STEEL ? 'tile-steel' : 
-                  tile === TileType.CRATE ? 'tile-crate' : 
+                  tile === TileType.CRATE ? 'tile-empty' : 
                   tile === TileType.SPIKE ? (spikesActive ? 'bg-zinc-800' : 'bg-zinc-900') :
                   (tile >= TileType.CONVEYOR_LEFT && tile <= TileType.CONVEYOR_DOWN) ? 'bg-zinc-800' :
                   'tile-empty'
                 }`}
               >
-                {/* Realistic Wooden Crate Rendering */}
+                {/* Realistic but Cleaner Wooden Crate Rendering */}
                 {tile === TileType.CRATE && (
-                  <div className="absolute inset-0.5 bg-[#654321] rounded-sm shadow-[0_4px_8px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden border-[2px] border-[#3e2723]">
-                    {/* Wood grain background */}
-                    <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,0.15)_2px,rgba(0,0,0,0.15)_4px)] opacity-60" />
-                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.5)_0%,transparent_15%,transparent_85%,rgba(0,0,0,0.5)_100%)]" />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,transparent_15%,transparent_85%,rgba(0,0,0,0.6)_100%)]" />
-
-                    {/* Outer Frame (Beveled) */}
-                    <div className="absolute inset-0 border-[5px] border-[#8b5a2b] shadow-[inset_0_0_15px_rgba(0,0,0,0.9)]" />
-                    <div className="absolute inset-0 border-[5px] border-t-[#a06b38] border-l-[#a06b38] border-b-[#4a2f18] border-r-[#4a2f18]" />
-
-                    {/* The X (Wooden planks) */}
-                    <div className="absolute w-[140%] h-[14%] bg-[#7a4b24] rotate-45 shadow-[0_3px_5px_rgba(0,0,0,0.7)] flex items-center justify-center border-y border-[#3e2723]">
-                      <div className="w-full h-full bg-[repeating-linear-gradient(90deg,transparent,transparent_4px,rgba(0,0,0,0.15)_4px,rgba(0,0,0,0.15)_8px)]" />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,transparent_50%,rgba(0,0,0,0.4)_100%)]" />
-                    </div>
-                    <div className="absolute w-[140%] h-[14%] bg-[#7a4b24] -rotate-45 shadow-[0_3px_5px_rgba(0,0,0,0.7)] flex items-center justify-center border-y border-[#3e2723]">
-                      <div className="w-full h-full bg-[repeating-linear-gradient(90deg,transparent,transparent_4px,rgba(0,0,0,0.15)_4px,rgba(0,0,0,0.15)_8px)]" />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,transparent_50%,rgba(0,0,0,0.4)_100%)]" />
+                  <div className="absolute inset-0.5 bg-[#8b5a2b] rounded-sm shadow-md flex items-center justify-center overflow-hidden border-2 border-[#5c3c1f]">
+                    {/* Subtle wood planks (horizontal lines) */}
+                    <div className="absolute inset-0 flex flex-col justify-between py-1 opacity-25">
+                      <div className="h-px bg-black" />
+                      <div className="h-px bg-black" />
+                      <div className="h-px bg-black" />
                     </div>
 
-                    {/* Nails in the corners */}
-                    <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
-                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
-                    <div className="absolute bottom-1 left-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
-                    <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
-                    
-                    {/* Nail in center intersection */}
-                    <div className="absolute w-2 h-2 bg-zinc-900 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.5)_inset,0_1px_2px_rgba(0,0,0,0.6)]" />
+                    {/* Outer Frame (Beveled, cleaner) */}
+                    <div className="absolute inset-0 border-[3px] border-t-[#a26d39] border-l-[#a26d39] border-b-[#6b441f] border-r-[#6b441f] pointer-events-none" />
+
+                    {/* The X (Simple, clean wooden planks) */}
+                    <div className="absolute w-[140%] h-[10%] bg-[#7c4f24] rotate-45 border-y border-[#5c3c1f] shadow-sm" />
+                    <div className="absolute w-[140%] h-[10%] bg-[#7c4f24] -rotate-45 border-y border-[#5c3c1f] shadow-sm" />
+
+                    {/* Small subtle corner rivets/nails */}
+                    <div className="absolute top-1 left-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
+                    <div className="absolute top-1 right-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
+                    <div className="absolute bottom-1 left-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
+                    <div className="absolute bottom-1 right-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
                   </div>
                 )}
 
