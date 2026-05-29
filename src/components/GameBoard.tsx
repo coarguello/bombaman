@@ -80,7 +80,7 @@ export function GameBoard({
               >
                 {/* Realistic but Cleaner Wooden Crate Rendering */}
                 {tile === TileType.CRATE && (
-                  <div className="absolute inset-0.5 bg-[#8b5a2b] rounded-sm shadow-md flex items-center justify-center overflow-hidden border-2 border-[#5c3c1f]">
+                  <div className="absolute inset-0.5 bg-[#5c3a21] rounded-sm shadow-md flex items-center justify-center overflow-hidden border-2 border-[#3b2614]">
                     {/* Subtle wood planks (horizontal lines) */}
                     <div className="absolute inset-0 flex flex-col justify-between py-1 opacity-25">
                       <div className="h-px bg-black" />
@@ -89,17 +89,20 @@ export function GameBoard({
                     </div>
 
                     {/* Outer Frame (Beveled, cleaner) */}
-                    <div className="absolute inset-0 border-[3px] border-t-[#a26d39] border-l-[#a26d39] border-b-[#6b441f] border-r-[#6b441f] pointer-events-none" />
+                    <div className="absolute inset-0 border-[3px] border-t-[#7a522a] border-l-[#7a522a] border-b-[#452c14] border-r-[#452c14] pointer-events-none" />
 
                     {/* The X (Simple, clean wooden planks) */}
-                    <div className="absolute w-[140%] h-[10%] bg-[#7c4f24] rotate-45 border-y border-[#5c3c1f] shadow-sm" />
-                    <div className="absolute w-[140%] h-[10%] bg-[#7c4f24] -rotate-45 border-y border-[#5c3c1f] shadow-sm" />
+                    <div className="absolute w-[140%] h-[10%] bg-[#5a391a] rotate-45 border-y border-[#3b2614] shadow-sm" />
+                    <div className="absolute w-[140%] h-[10%] bg-[#5a391a] -rotate-45 border-y border-[#3b2614] shadow-sm" />
 
                     {/* Small subtle corner rivets/nails */}
-                    <div className="absolute top-1 left-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
-                    <div className="absolute top-1 right-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
-                    <div className="absolute bottom-1 left-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
-                    <div className="absolute bottom-1 right-1 w-1 h-1 bg-zinc-950 rounded-full opacity-60" />
+                    <div className="absolute top-1 left-1 w-1 h-1 bg-zinc-950 rounded-full opacity-80" />
+                    <div className="absolute top-1 right-1 w-1 h-1 bg-zinc-950 rounded-full opacity-80" />
+                    <div className="absolute bottom-1 left-1 w-1 h-1 bg-zinc-950 rounded-full opacity-80" />
+                    <div className="absolute bottom-1 right-1 w-1 h-1 bg-zinc-950 rounded-full opacity-80" />
+                    
+                    {/* Big nail in center */}
+                    <div className="absolute w-2 h-2 bg-zinc-900 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.3)_inset,0_1px_2px_rgba(0,0,0,0.8)]" />
                   </div>
                 )}
 
@@ -335,7 +338,7 @@ export function GameBoard({
                     scale: 0.5,
                   }}
                   transition={{ duration, ease: "easeOut" }}
-                  className="absolute bg-[#654321] border border-[#3e2723] rounded-sm shadow-sm"
+                  className="absolute bg-[#5c3a21] border border-[#3b2614] rounded-sm shadow-sm"
                   style={{ width: size, height: size, left: -size / 2, top: -size / 2 }}
                 />
               );
