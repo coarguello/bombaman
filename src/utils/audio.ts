@@ -102,34 +102,68 @@ const playSequence = (sequence: Note[], tempoMs: number) => {
 
 // Action BGM (Bomberman style fast bassline)
 export const startBattleMusic = () => {
-  // C minor pentatonic bassline
-  const seq: Note[] = [
-    { freq: 130.81, duration: 0.15 }, // C3
-    { freq: null, duration: 0.15 },
-    { freq: 155.56, duration: 0.15 }, // Eb3
-    { freq: 174.61, duration: 0.15 }, // F3
-    { freq: 130.81, duration: 0.15 }, // C3
-    { freq: 196.00, duration: 0.15 }, // G3
-    { freq: null, duration: 0.15 },
-    { freq: 174.61, duration: 0.15 }, // F3
+  // 64-step sequence (150ms per step = 9.6 seconds loop)
+  const motif1 = [
+    { freq: 130.81, duration: 0.15 }, { freq: null, duration: 0.15 },
+    { freq: 155.56, duration: 0.15 }, { freq: 174.61, duration: 0.15 },
+    { freq: 130.81, duration: 0.15 }, { freq: 196.00, duration: 0.15 },
+    { freq: null, duration: 0.15 }, { freq: 174.61, duration: 0.15 },
   ];
-  playSequence(seq, 180);
+  const motif2 = [
+    { freq: 130.81, duration: 0.15 }, { freq: null, duration: 0.15 },
+    { freq: 155.56, duration: 0.15 }, { freq: 174.61, duration: 0.15 },
+    { freq: 130.81, duration: 0.15 }, { freq: 233.08, duration: 0.15 }, // Bb3
+    { freq: null, duration: 0.15 }, { freq: 196.00, duration: 0.15 }, // G3
+  ];
+  const seq: Note[] = [
+    ...motif1, ...motif2, ...motif1, ...motif2,
+    ...motif1, ...motif2, ...motif1, ...motif2
+  ];
+  playSequence(seq, 150);
 };
 
 // Chill Store Music (Arpeggio)
 export const startStoreMusic = () => {
-  // C major / A minor arpeggio
-  const seq: Note[] = [
-    { freq: 261.63, duration: 0.2 }, // C4
-    { freq: 329.63, duration: 0.2 }, // E4
-    { freq: 392.00, duration: 0.2 }, // G4
-    { freq: 523.25, duration: 0.2 }, // C5
-    { freq: 220.00, duration: 0.2 }, // A3
-    { freq: 261.63, duration: 0.2 }, // C4
-    { freq: 329.63, duration: 0.2 }, // E4
-    { freq: 440.00, duration: 0.2 }, // A4
+  // 64-step sequence (150ms per step = 9.6 seconds loop)
+  const cMaj = [
+    { freq: 261.63, duration: 0.2 }, { freq: 329.63, duration: 0.2 },
+    { freq: 392.00, duration: 0.2 }, { freq: 523.25, duration: 0.2 },
+    { freq: 392.00, duration: 0.2 }, { freq: 329.63, duration: 0.2 },
+    { freq: 261.63, duration: 0.2 }, { freq: null, duration: 0.2 },
   ];
-  playSequence(seq, 250);
+  const aMin = [
+    { freq: 220.00, duration: 0.2 }, { freq: 261.63, duration: 0.2 },
+    { freq: 329.63, duration: 0.2 }, { freq: 440.00, duration: 0.2 },
+    { freq: 329.63, duration: 0.2 }, { freq: 261.63, duration: 0.2 },
+    { freq: 220.00, duration: 0.2 }, { freq: null, duration: 0.2 },
+  ];
+  const seq: Note[] = [
+    ...cMaj, ...aMin, ...cMaj, ...aMin,
+    ...cMaj, ...aMin, ...cMaj, ...aMin
+  ];
+  playSequence(seq, 150);
+};
+
+export const playVictoryJingle = () => {
+  stopAllMusic();
+  if (!audioCtx) return;
+  // C major arpeggio up
+  const notes = [261.63, 329.63, 392.00, 523.25];
+  notes.forEach((freq, i) => {
+    setTimeout(() => playTone(freq, 'square', 0.15, 0.1), i * 150);
+  });
+  setTimeout(() => playTone(523.25, 'square', 0.4, 0.1), 600); // Hold top C
+};
+
+export const playDefeatJingle = () => {
+  stopAllMusic();
+  if (!audioCtx) return;
+  // Diminished descending
+  const notes = [311.13, 293.66, 277.18, 261.63];
+  notes.forEach((freq, i) => {
+    setTimeout(() => playTone(freq, 'triangle', 0.2, 0.1), i * 200);
+  });
+  setTimeout(() => playTone(246.94, 'triangle', 0.6, 0.1), 800); // Low B
 };
 
 export const stopAllMusic = () => {

@@ -25,6 +25,7 @@ interface GameBoardProps {
   onRestartLevel: () => void;
   onGoToMenu: () => void;
   onStartNextLevel: () => void;
+  destroyedCrates: { id: string; x: number; y: number }[];
 }
 
 export function GameBoard({
@@ -46,7 +47,8 @@ export function GameBoard({
   spikesActive,
   onRestartLevel,
   onGoToMenu,
-  onStartNextLevel
+  onStartNextLevel,
+  destroyedCrates
 }: GameBoardProps) {
   return (
     <div 
@@ -76,6 +78,19 @@ export function GameBoard({
                   'tile-empty'
                 }`}
               >
+                {/* Custom Wooden Crate Rendering */}
+                {tile === TileType.CRATE && (
+                  <div className="absolute inset-0.5 bg-amber-700 rounded border border-amber-800 shadow-md flex items-center justify-center overflow-hidden">
+                    <div className="absolute inset-1 border border-amber-900/40" />
+                    <div className="absolute inset-y-0 left-0 w-2.5 bg-amber-800 border-r border-amber-950/20" />
+                    <div className="absolute inset-y-0 right-0 w-2.5 bg-amber-800 border-l border-amber-950/20" />
+                    <div className="absolute inset-x-0 top-0 h-2.5 bg-amber-800 border-b border-amber-950/20" />
+                    <div className="absolute inset-x-0 bottom-0 h-2.5 bg-amber-800 border-t border-amber-950/20" />
+                    <div className="absolute w-[120%] h-2 bg-amber-900/60 rotate-45 shadow-sm" />
+                    <div className="absolute w-[120%] h-2 bg-amber-900/60 -rotate-45 shadow-sm" />
+                  </div>
+                )}
+
                 {/* Spikes rendering */}
                 {tile === TileType.SPIKE && (
                   <div className="absolute inset-0 overflow-hidden">
@@ -279,6 +294,43 @@ export function GameBoard({
           })
         )}
       </div>
+
+      {/* Render Destroyed Crate Particles */}
+      <AnimatePresence>
+        {destroyedCrates.map(crate => (
+          <div
+            key={crate.id}
+            className="absolute z-40 pointer-events-none"
+            style={{
+              left: crate.x * tileSize + 8 + tileSize / 2,
+              top: crate.y * tileSize + 8 + tileSize / 2,
+            }}
+          >
+            {[...Array(8)].map((_, i) => {
+              const angle = (Math.PI * 2 * i) / 8 + Math.random() * 0.5;
+              const velocity = 30 + Math.random() * 40;
+              const duration = 0.5 + Math.random() * 0.3;
+              const size = 6 + Math.random() * 6;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ x: 0, y: 0, opacity: 1, rotate: 0, scale: 1 }}
+                  animate={{
+                    x: Math.cos(angle) * velocity,
+                    y: Math.sin(angle) * velocity,
+                    opacity: 0,
+                    rotate: Math.random() * 360 - 180,
+                    scale: 0.5,
+                  }}
+                  transition={{ duration, ease: "easeOut" }}
+                  className="absolute bg-amber-700 border border-amber-900 rounded-sm"
+                  style={{ width: size, height: size, left: -size / 2, top: -size / 2 }}
+                />
+              );
+            })}
+          </div>
+        ))}
+      </AnimatePresence>
 
        {/* Render Bombs */}
       <AnimatePresence>

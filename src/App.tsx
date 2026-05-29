@@ -9,7 +9,7 @@ import { GameHUD } from './components/GameHUD';
 import { GameBoard } from './components/GameBoard';
 import { StoreScreen } from './components/StoreScreen';
 import { LevelSelectScreen } from './components/LevelSelectScreen';
-import { initAudio, startBattleMusic, startStoreMusic, stopAllMusic, playMenuSelectSFX, playTick, playExplosionSFX, playCrateDestroySFX, playCoinSFX } from './utils/audio';
+import { initAudio, startBattleMusic, startStoreMusic, stopAllMusic, playMenuSelectSFX, playTick, playExplosionSFX, playCrateDestroySFX, playCoinSFX, playVictoryJingle, playDefeatJingle } from './utils/audio';
 import { AuthModal } from './components/AuthModal';
 import { auth, db } from './services/firebase';
 import { onAuthStateChanged, User, signOut } from 'firebase/auth';
@@ -35,6 +35,7 @@ export default function App() {
   const [milestoneMessage, setMilestoneMessage] = useState<string | null>(null);
   const [spikesActive, setSpikesActive] = useState(false);
   const [tileSize, setTileSize] = useState(40);
+  const [destroyedCrates, setDestroyedCrates] = useState<{ id: string; x: number; y: number }[]>([]);
 
   // Max level the player has unlocked (persisted)
   const [maxUnlockedLevel, setMaxUnlockedLevel] = useState<number>(
@@ -126,6 +127,18 @@ export default function App() {
       stopAllMusic();
     }
   }, [showStore, gameStarted, isGameOver, isLevelCleared]);
+
+  useEffect(() => {
+    if (isGameOver && gameStarted) {
+      playDefeatJingle();
+    }
+  }, [isGameOver, gameStarted]);
+
+  useEffect(() => {
+    if (isLevelCleared && gameStarted) {
+      playVictoryJingle();
+    }
+  }, [isLevelCleared, gameStarted]);
 
   // Refs for logic that shouldn't trigger re-renders or needs stable context
   const gridRef = useRef<TileType[][]>([]);
@@ -275,106 +288,13 @@ export default function App() {
           row.push(TileType.CRATE);
           cratePositions.push({ x, y });
         } else if ((x > 2 || y > 2)) {
-          // Solo pinchos aquí; las cintas se añaden en un segundo pase
-          if (level >= 2 && Math.random() < 0.05) {
-            row.push(TileType.SPIKE);
-          } else {
-            row.push(TileType.EMPTY);
-          }
+          row.push(TileType.EMPTY);
         } else {
           row.push(TileType.EMPTY);
         }
       }
       newGrid.push(row);
     }
-
-    // === Segundo pase: colocar cintas transportadoras con separación garantizada ===
-    if (level >= 4) {
-      // pushDist igual que en el efecto de conveyors (mismo cálculo que en el useEffect)
-      const pushDist = level >= 7 ? 3 : level >= 5 ? 2 : 1;
-      // Zona de exclusión total: la cinta + su rango + 1 celda extra de "buffer"
-      const exclusionDist = pushDist + 1;
-
-      const conveyorTypes = [TileType.CONVEYOR_LEFT, TileType.CONVEYOR_RIGHT, TileType.CONVEYOR_UP, TileType.CONVEYOR_DOWN];
-      const placedConveyors: { x: number; y: number; type: TileType }[] = [];
-
-      // Recoger celdas candidatas (vacías, fuera de zona inicial del jugador)
-      const candidates: { x: number; y: number }[] = [];
-      for (let y = 0; y < GRID_SIZE; y++) {
-        for (let x = 0; x < GRID_SIZE; x++) {
-          if (newGrid[y][x] === TileType.EMPTY && (x > 2 || y > 2)) {
-            candidates.push({ x, y });
-          }
-        }
-      }
-      // Mezclar candidatas aleatoriamente
-      for (let i = candidates.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
-      }
-
-      // Máximo 3 cintas por mapa
-      const MAX_CONVEYORS = 3;
-
-      for (const { x, y } of candidates) {
-        if (placedConveyors.length >= MAX_CONVEYORS) break;
-
-        // Verificar que ninguna cinta ya colocada esté dentro de la zona de exclusión
-        // (chequeamos distancia de Chebyshev, es decir, tanto en eje propio como diagonal)
-        const tooClose = placedConveyors.some(c => {
-          // Distancia máxima en cualquier eje (Chebyshev)
-          return Math.max(Math.abs(c.x - x), Math.abs(c.y - y)) <= exclusionDist;
-        });
-
-        if (tooClose) continue;
-
-        // Verificar también que el rango de tiro de esta nueva cinta no alcance a otra cinta
-        const type = conveyorTypes[Math.floor(Math.random() * conveyorTypes.length)];
-        let dx = 0, dy = 0;
-        if (type === TileType.CONVEYOR_LEFT) dx = -1;
-        else if (type === TileType.CONVEYOR_RIGHT) dx = 1;
-        else if (type === TileType.CONVEYOR_UP) dy = -1;
-        else if (type === TileType.CONVEYOR_DOWN) dy = 1;
-
-        let rangeConflict = false;
-        for (let step = 1; step <= exclusionDist; step++) {
-          const tx = x + dx * step;
-          const ty = y + dy * step;
-          if (tx < 0 || tx >= GRID_SIZE || ty < 0 || ty >= GRID_SIZE) break;
-          if (placedConveyors.some(c => c.x === tx && c.y === ty)) {
-            rangeConflict = true;
-            break;
-          }
-        }
-        // También la dirección opuesta (que esta cinta no esté en el rango de una ya colocada)
-        if (!rangeConflict) {
-          for (let step = 1; step <= exclusionDist; step++) {
-            const tx = x - dx * step;
-            const ty = y - dy * step;
-            if (tx < 0 || tx >= GRID_SIZE || ty < 0 || ty >= GRID_SIZE) break;
-            if (placedConveyors.some(c => {
-              // ¿Esa cinta apunta hacia acá?
-              let cdx = 0, cdy = 0;
-              if (c.type === TileType.CONVEYOR_LEFT) cdx = -1;
-              else if (c.type === TileType.CONVEYOR_RIGHT) cdx = 1;
-              else if (c.type === TileType.CONVEYOR_UP) cdy = -1;
-              else if (c.type === TileType.CONVEYOR_DOWN) cdy = 1;
-              return c.x === tx && c.y === ty && cdx === dx && cdy === dy;
-            })) {
-              rangeConflict = true;
-              break;
-            }
-          }
-        }
-
-        if (rangeConflict) continue;
-
-        // Colocar la cinta
-        newGrid[y][x] = type;
-        placedConveyors.push({ x, y, type });
-      }
-    }
-    // ============================================================
 
     setGrid(newGrid);
     gridRef.current = newGrid;
@@ -482,6 +402,13 @@ export default function App() {
           currentGrid[ny][nx] = TileType.EMPTY;
           cratesDestroyed++;
           __lastDestroyed = { x: nx, y: ny };
+          
+          const crateId = Math.random().toString(36).substr(2, 9);
+          setDestroyedCrates(prev => [...prev, { id: crateId, x: nx, y: ny }]);
+          setTimeout(() => {
+            setDestroyedCrates(prev => prev.filter(c => c.id !== crateId));
+          }, 1000);
+
           break;
         }
       }
@@ -1163,6 +1090,7 @@ export default function App() {
               onRestartLevel={restartCurrentLevel}
               onGoToMenu={goToMenu}
               onStartNextLevel={startNextLevel}
+              destroyedCrates={destroyedCrates}
             />
           </motion.div>
         )}
