@@ -78,16 +78,36 @@ export function GameBoard({
                   'tile-empty'
                 }`}
               >
-                {/* Custom Wooden Crate Rendering */}
+                {/* Realistic Wooden Crate Rendering */}
                 {tile === TileType.CRATE && (
-                  <div className="absolute inset-0.5 bg-amber-700 rounded border border-amber-800 shadow-md flex items-center justify-center overflow-hidden">
-                    <div className="absolute inset-1 border border-amber-900/40" />
-                    <div className="absolute inset-y-0 left-0 w-2.5 bg-amber-800 border-r border-amber-950/20" />
-                    <div className="absolute inset-y-0 right-0 w-2.5 bg-amber-800 border-l border-amber-950/20" />
-                    <div className="absolute inset-x-0 top-0 h-2.5 bg-amber-800 border-b border-amber-950/20" />
-                    <div className="absolute inset-x-0 bottom-0 h-2.5 bg-amber-800 border-t border-amber-950/20" />
-                    <div className="absolute w-[120%] h-2 bg-amber-900/60 rotate-45 shadow-sm" />
-                    <div className="absolute w-[120%] h-2 bg-amber-900/60 -rotate-45 shadow-sm" />
+                  <div className="absolute inset-0.5 bg-[#654321] rounded-sm shadow-[0_4px_8px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden border-[2px] border-[#3e2723]">
+                    {/* Wood grain background */}
+                    <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,0.15)_2px,rgba(0,0,0,0.15)_4px)] opacity-60" />
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.5)_0%,transparent_15%,transparent_85%,rgba(0,0,0,0.5)_100%)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,transparent_15%,transparent_85%,rgba(0,0,0,0.6)_100%)]" />
+
+                    {/* Outer Frame (Beveled) */}
+                    <div className="absolute inset-0 border-[5px] border-[#8b5a2b] shadow-[inset_0_0_15px_rgba(0,0,0,0.9)]" />
+                    <div className="absolute inset-0 border-[5px] border-t-[#a06b38] border-l-[#a06b38] border-b-[#4a2f18] border-r-[#4a2f18]" />
+
+                    {/* The X (Wooden planks) */}
+                    <div className="absolute w-[140%] h-[14%] bg-[#7a4b24] rotate-45 shadow-[0_3px_5px_rgba(0,0,0,0.7)] flex items-center justify-center border-y border-[#3e2723]">
+                      <div className="w-full h-full bg-[repeating-linear-gradient(90deg,transparent,transparent_4px,rgba(0,0,0,0.15)_4px,rgba(0,0,0,0.15)_8px)]" />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,transparent_50%,rgba(0,0,0,0.4)_100%)]" />
+                    </div>
+                    <div className="absolute w-[140%] h-[14%] bg-[#7a4b24] -rotate-45 shadow-[0_3px_5px_rgba(0,0,0,0.7)] flex items-center justify-center border-y border-[#3e2723]">
+                      <div className="w-full h-full bg-[repeating-linear-gradient(90deg,transparent,transparent_4px,rgba(0,0,0,0.15)_4px,rgba(0,0,0,0.15)_8px)]" />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15)_0%,transparent_50%,rgba(0,0,0,0.4)_100%)]" />
+                    </div>
+
+                    {/* Nails in the corners */}
+                    <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
+                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
+                    <div className="absolute bottom-1 left-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
+                    <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-[0_0_1px_rgba(255,255,255,0.4)_inset,0_1px_1px_rgba(0,0,0,0.5)]" />
+                    
+                    {/* Nail in center intersection */}
+                    <div className="absolute w-2 h-2 bg-zinc-900 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.5)_inset,0_1px_2px_rgba(0,0,0,0.6)]" />
                   </div>
                 )}
 
@@ -323,7 +343,7 @@ export function GameBoard({
                     scale: 0.5,
                   }}
                   transition={{ duration, ease: "easeOut" }}
-                  className="absolute bg-amber-700 border border-amber-900 rounded-sm"
+                  className="absolute bg-[#654321] border border-[#3e2723] rounded-sm shadow-sm"
                   style={{ width: size, height: size, left: -size / 2, top: -size / 2 }}
                 />
               );
