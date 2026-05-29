@@ -14,6 +14,7 @@ import { AuthModal } from './components/AuthModal';
 import { auth, db } from './services/firebase';
 import { onAuthStateChanged, User, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { GameTheme, getThemeForLevel } from './types/theme';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -941,6 +942,10 @@ export default function App() {
   }, [gameStarted, isGameOver, level, spikesActive]);
 
   const startNextLevel = () => {
+    if (level >= 25) {
+      goToMenu(); // Reached max level
+      return;
+    }
     const nextLevel = level + 1;
     setLevel(nextLevel);
     // Unlock the next level if it wasn't unlocked yet
@@ -1071,6 +1076,7 @@ export default function App() {
             />
 
             <GameBoard 
+              theme={getThemeForLevel(level)}
               grid={grid}
               tileSize={tileSize}
               isExitVisible={isExitVisible}

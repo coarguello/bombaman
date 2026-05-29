@@ -1,11 +1,13 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { LogOut, Sparkles, Trophy } from 'lucide-react';
 import { TileType, EnemyType, Position, Bomb, Explosion, Enemy, SkinConfig } from '../types/game';
+import { GameTheme } from '../types/theme';
 import { GRID_SIZE, BOMB_TIMER } from '../constants/game';
 import { PlayerAvatar } from './PlayerAvatar';
 import { STORE_CATALOG } from '../constants/store';
 
 interface GameBoardProps {
+  theme?: GameTheme;
   grid: TileType[][];
   tileSize: number;
   isExitVisible: boolean;
@@ -29,6 +31,7 @@ interface GameBoardProps {
 }
 
 export function GameBoard({
+  theme = 'industrial',
   grid,
   tileSize,
   isExitVisible,
@@ -50,9 +53,31 @@ export function GameBoard({
   onStartNextLevel,
   destroyedCrates
 }: GameBoardProps) {
+  const getBoardStyles = () => {
+    switch (theme) {
+      case 'jungle': return 'bg-emerald-950 border-emerald-900 shadow-[0_0_50px_rgba(6,78,59,0.5)]';
+      case 'underworld': return 'bg-stone-950 border-red-950 shadow-[0_0_50px_rgba(153,27,27,0.4)]';
+      case 'desert': return 'bg-amber-950 border-amber-900 shadow-[0_0_50px_rgba(120,53,15,0.5)]';
+      case 'cosmic': return 'bg-slate-950 border-purple-950 shadow-[0_0_50px_rgba(88,28,135,0.4)]';
+      case 'industrial':
+      default: return 'bg-zinc-900 border-zinc-800 shadow-[0_0_50px_rgba(0,0,0,0.5)]';
+    }
+  };
+
+  const getEmptyTileStyles = () => {
+    switch (theme) {
+      case 'jungle': return 'bg-green-950/40 border border-green-900/30';
+      case 'underworld': return 'bg-stone-900/60 border border-red-900/20';
+      case 'desert': return 'bg-yellow-950/40 border border-yellow-900/30';
+      case 'cosmic': return 'bg-indigo-950/30 border border-purple-900/30';
+      case 'industrial':
+      default: return 'tile-empty'; // Fallback to index.css if desired, or 'bg-zinc-900/50 border border-zinc-800/30'
+    }
+  };
+
   return (
     <div 
-      className="relative bg-zinc-900 p-2 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border-4 border-zinc-800 box-content"
+      className={`relative p-2 rounded-xl border-4 box-content transition-colors duration-1000 ${getBoardStyles()}`}
       style={{ width: GRID_SIZE * tileSize, height: GRID_SIZE * tileSize }}
     >
       {/* Render Grid */}
@@ -70,17 +95,75 @@ export function GameBoard({
               <div 
                 key={`${x}-${y}`}
                 style={{ width: tileSize, height: tileSize }}
-                className={`transition-colors duration-300 relative ${
-                  tile === TileType.STEEL ? 'tile-steel' : 
-                  tile === TileType.CRATE ? 'tile-empty' : 
+                className={`transition-colors duration-700 relative ${
                   tile === TileType.SPIKE ? (spikesActive ? 'bg-zinc-800' : 'bg-zinc-900') :
                   (tile >= TileType.CONVEYOR_LEFT && tile <= TileType.CONVEYOR_DOWN) ? 'bg-zinc-800' :
-                  'tile-empty'
+                  getEmptyTileStyles()
                 }`}
               >
-                {/* Realistic but Cleaner Wooden Crate Rendering */}
+                {/* Dynamic Steel/Indestructible Blocks Rendering based on Theme */}
+                {tile === TileType.STEEL && (
+                  <div className="absolute inset-0 overflow-hidden shadow-md">
+                    {/* INDUSTRIAL */}
+                    {theme === 'industrial' && (
+                      <div className="w-full h-full bg-zinc-600 border-[3px] border-t-zinc-500 border-l-zinc-500 border-b-zinc-800 border-r-zinc-800 flex items-center justify-center">
+                        <div className="w-[70%] h-[70%] border border-zinc-700 bg-zinc-500/50 flex flex-wrap content-between justify-between p-1">
+                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+                        </div>
+                      </div>
+                    )}
+                    {/* JUNGLE */}
+                    {theme === 'jungle' && (
+                      <div className="w-full h-full bg-stone-600 border-[3px] border-t-stone-500 border-l-stone-500 border-b-stone-800 border-r-stone-800 relative">
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.4)_100%)]" />
+                        {/* Vines */}
+                        <div className="absolute top-0 left-1 w-2 h-4 bg-green-700/90 rounded-b-full shadow-sm" />
+                        <div className="absolute top-0 right-2 w-1.5 h-3 bg-green-800/90 rounded-b-full shadow-sm" />
+                        <div className="absolute bottom-0 right-1 w-2.5 h-3 bg-green-600/90 rounded-t-full shadow-sm" />
+                        <div className="absolute top-2 left-0 w-3 h-1.5 bg-green-700/90 rounded-r-full shadow-sm" />
+                        {/* Moss spots */}
+                        <div className="absolute bottom-2 left-2 w-3 h-2 bg-green-800/70 rounded-full blur-[1px]" />
+                        <div className="absolute top-3 right-3 w-4 h-3 bg-green-900/70 rounded-full blur-[1px]" />
+                      </div>
+                    )}
+                    {/* UNDERWORLD */}
+                    {theme === 'underworld' && (
+                      <div className="w-full h-full bg-zinc-950 border-[2px] border-zinc-900 relative flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,1)_100%)]" />
+                        {/* Lava cracks */}
+                        <div className="absolute w-[80%] h-0.5 bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.8)] rotate-45 animate-pulse" />
+                        <div className="absolute w-[60%] h-0.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)] -rotate-12 top-3 left-1" />
+                        <div className="absolute w-[40%] h-0.5 bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)] rotate-[70deg] bottom-2 right-2" />
+                      </div>
+                    )}
+                    {/* DESERT */}
+                    {theme === 'desert' && (
+                      <div className="w-full h-full bg-[#d4a373] border-[3px] border-t-[#faedcb] border-l-[#faedcb] border-b-[#a67c52] border-r-[#a67c52] relative flex flex-col items-center justify-center p-1">
+                         <div className="w-full h-[2px] bg-[#a67c52]/40 mb-1" />
+                         <div className="w-full h-[2px] bg-[#a67c52]/40 mb-1" />
+                         <div className="w-[2px] h-full bg-[#a67c52]/40 absolute" />
+                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.15)_100%)]" />
+                      </div>
+                    )}
+                    {/* COSMIC */}
+                    {theme === 'cosmic' && (
+                      <div className="w-full h-full bg-slate-900 border-[2px] border-purple-500 relative flex items-center justify-center shadow-[inset_0_0_10px_rgba(168,85,247,0.5)]">
+                        <div className="absolute w-[60%] h-[60%] border border-cyan-400 rotate-45 flex items-center justify-center">
+                           <div className="w-1.5 h-1.5 bg-pink-500 rounded-full shadow-[0_0_5px_rgba(236,72,153,1)] animate-ping" />
+                        </div>
+                        <div className="absolute top-1 left-1 w-1 h-1 bg-cyan-300 rounded-full shadow-[0_0_3px_rgba(103,232,249,1)]" />
+                        <div className="absolute bottom-1 right-1 w-1 h-1 bg-cyan-300 rounded-full shadow-[0_0_3px_rgba(103,232,249,1)]" />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Realistic but Cleaner Wooden Crate Rendering (Always the same) */}
                 {tile === TileType.CRATE && (
-                  <div className="absolute inset-0.5 bg-[#5c3a21] rounded-sm shadow-md flex items-center justify-center overflow-hidden border-2 border-[#3b2614]">
+                  <div className="absolute inset-0.5 bg-[#5c3a21] rounded-sm shadow-md flex items-center justify-center overflow-hidden border-2 border-[#3b2614] z-10">
                     {/* Subtle wood planks (horizontal lines) */}
                     <div className="absolute inset-0 flex flex-col justify-between py-1 opacity-25">
                       <div className="h-px bg-black" />
