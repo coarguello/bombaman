@@ -101,71 +101,138 @@ export function GameBoard({
                   getEmptyTileStyles()
                 }`}
               >
-                {/* Dynamic Steel/Indestructible Blocks Rendering based on Theme */}
+                {/* Dynamic Steel/Indestructible Blocks Rendering based on Theme (PROMAX TRYHARD MODE) */}
                 {tile === TileType.STEEL && (
-                  <div className="absolute inset-0 overflow-hidden shadow-md">
-                    {/* INDUSTRIAL */}
+                  <div className="absolute inset-0 overflow-hidden shadow-xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] z-10">
+                    
+                    {/* INDUSTRIAL (ProMax) */}
                     {theme === 'industrial' && (
-                      <div className="w-full h-full bg-zinc-600 border-[3px] border-t-zinc-500 border-l-zinc-500 border-b-zinc-800 border-r-zinc-800 flex items-center justify-center">
-                        <div className="w-[70%] h-[70%] border border-zinc-700 bg-zinc-500/50 flex flex-wrap content-between justify-between p-1">
-                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-                          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+                      <div className="w-full h-full bg-zinc-700 border-[4px] border-t-zinc-400 border-l-zinc-500 border-b-zinc-900 border-r-zinc-800 flex items-center justify-center relative overflow-hidden">
+                        {/* Hazard stripes top/bottom */}
+                        <div className="absolute top-0 left-0 w-full h-1.5 bg-[repeating-linear-gradient(45deg,#eab308,#eab308_4px,#000_4px,#000_8px)] opacity-80" />
+                        <div className="absolute bottom-0 left-0 w-full h-1.5 bg-[repeating-linear-gradient(45deg,#eab308,#eab308_4px,#000_4px,#000_8px)] opacity-80" />
+                        
+                        {/* Glowing Vent Core */}
+                        <div className="w-[60%] h-[60%] bg-zinc-950 border-2 border-zinc-900 rounded-sm shadow-[inset_0_0_8px_rgba(0,0,0,1)] flex flex-col justify-evenly p-1 relative">
+                           <div className="absolute inset-0 bg-orange-500/20 blur-sm animate-pulse" />
+                           <div className="w-full h-[20%] bg-gradient-to-r from-orange-600 to-yellow-400 shadow-[0_0_5px_rgba(234,179,8,0.8)] rounded-full" />
+                           <div className="w-full h-[20%] bg-gradient-to-r from-orange-600 to-yellow-400 shadow-[0_0_5px_rgba(234,179,8,0.8)] rounded-full" />
+                           <div className="w-full h-[20%] bg-gradient-to-r from-orange-600 to-yellow-400 shadow-[0_0_5px_rgba(234,179,8,0.8)] rounded-full" />
                         </div>
+                        
+                        {/* Corner Screws */}
+                        <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className="w-full h-[1px] bg-zinc-800 rotate-45"/></div>
+                        <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className="w-full h-[1px] bg-zinc-800 -rotate-45"/></div>
+                        <div className="absolute bottom-1 left-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className="w-full h-[1px] bg-zinc-800 rotate-90"/></div>
+                        <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className="w-full h-[1px] bg-zinc-800"/></div>
                       </div>
                     )}
-                    {/* JUNGLE */}
+
+                    {/* JUNGLE (ProMax) */}
                     {theme === 'jungle' && (
-                      <div className="w-full h-full bg-stone-500 border-[3px] border-t-stone-400 border-l-stone-400 border-b-stone-700 border-r-stone-700 relative flex items-center justify-center">
-                        {/* Crack in the stone */}
-                        <div className="absolute w-[80%] h-px bg-stone-700/50 rotate-12" />
-                        <div className="absolute w-px h-[60%] bg-stone-700/50 -rotate-12 left-2" />
+                      <div className="w-full h-full bg-[#4a5344] border-[4px] border-t-[#66725c] border-l-[#56614f] border-b-[#2e332a] border-r-[#383f33] relative flex items-center justify-center overflow-hidden">
+                        {/* Ancient Stone Carving / Rune */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-80">
+                           <svg viewBox="0 0 100 100" className="w-[70%] h-[70%]">
+                             <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="#22c55e" strokeWidth="4" className="drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] animate-pulse" />
+                             <circle cx="50" cy="50" r="15" fill="#15803d" className="drop-shadow-[0_0_8px_rgba(21,128,61,1)]" />
+                           </svg>
+                        </div>
                         
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.2)_100%)]" />
-                        
-                        {/* Realistic leaves overlay (SVG) */}
-                        <svg className="absolute inset-0 w-full h-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          {/* Top-left vine */}
-                          <path d="M-2 -2 Q 6 2 4 12 Q 1 8 -2 -2 Z" fill="#15803d" />
-                          <path d="M0 -2 Q 10 4 8 16 Q 3 10 0 -2 Z" fill="#166534" />
+                        {/* Deep Stone Cracks */}
+                        <svg className="absolute inset-0 w-full h-full opacity-60" viewBox="0 0 100 100">
+                          <path d="M 0 20 L 30 35 L 40 10 L 60 50 L 100 40" fill="none" stroke="#1c1f19" strokeWidth="2" />
+                          <path d="M 20 100 L 40 70 L 30 50" fill="none" stroke="#1c1f19" strokeWidth="2" />
+                        </svg>
+
+                        {/* Overgrown 3D Leaves & Moss SVG overlay */}
+                        <svg className="absolute inset-0 w-full h-full drop-shadow-[0_3px_3px_rgba(0,0,0,0.7)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          {/* Top-left massive foliage cluster */}
+                          <path d="M-5 -5 Q 15 5 10 20 Q 5 15 -5 -5 Z" fill="#14532d" />
+                          <path d="M-5 -5 Q 5 15 0 25 Q -5 15 -5 -5 Z" fill="#166534" />
+                          <path d="M5 -5 Q 20 0 15 15 Q 10 5 5 -5 Z" fill="#15803d" />
+                          <path d="M-2 -2 Q 8 2 6 12 Q 2 6 -2 -2 Z" fill="#22c55e" opacity="0.6" />
                           
-                          {/* Top-right vine */}
-                          <path d="M26 -2 Q 18 2 20 12 Q 23 8 26 -2 Z" fill="#15803d" />
-                          <path d="M24 -2 Q 14 4 16 16 Q 21 10 24 -2 Z" fill="#166534" />
+                          {/* Top-right overgrowth */}
+                          <path d="M45 -5 Q 25 5 30 20 Q 35 15 45 -5 Z" fill="#14532d" />
+                          <path d="M40 -5 Q 25 0 30 15 Q 35 5 40 -5 Z" fill="#166534" />
                           
-                          {/* Small side leaf */}
-                          <path d="M-2 14 Q 4 16 2 20 Q -1 18 -2 14 Z" fill="#14532d" />
+                          {/* Bottom creeping vines */}
+                          <path d="M-5 45 Q 10 30 25 45 Z" fill="#14532d" />
+                          <path d="M45 45 Q 30 30 15 45 Z" fill="#166534" />
                         </svg>
                       </div>
                     )}
-                    {/* UNDERWORLD */}
+
+                    {/* UNDERWORLD (ProMax) */}
                     {theme === 'underworld' && (
-                      <div className="w-full h-full bg-zinc-950 border-[2px] border-zinc-900 relative flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,1)_100%)]" />
-                        {/* Lava cracks */}
-                        <div className="absolute w-[80%] h-0.5 bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.8)] rotate-45 animate-pulse" />
-                        <div className="absolute w-[60%] h-0.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)] -rotate-12 top-3 left-1" />
-                        <div className="absolute w-[40%] h-0.5 bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.8)] rotate-[70deg] bottom-2 right-2" />
+                      <div className="w-full h-full bg-[#111] border-[3px] border-t-[#333] border-l-[#222] border-b-[#000] border-r-[#000] relative overflow-hidden flex items-center justify-center">
+                        {/* Magma Core Backing */}
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.5)_0%,rgba(0,0,0,1)_80%)]" />
+                        
+                        {/* Deep glowing lava fissures */}
+                        <svg className="absolute w-[120%] h-[120%] -left-[10%] -top-[10%]" viewBox="0 0 100 100">
+                           <path d="M 10 0 L 30 40 L 15 70 L 40 100" fill="none" stroke="#ef4444" strokeWidth="4" className="drop-shadow-[0_0_8px_rgba(239,68,68,1)] animate-pulse" />
+                           <path d="M 60 0 L 50 30 L 80 60 L 60 100" fill="none" stroke="#f97316" strokeWidth="3" className="drop-shadow-[0_0_6px_rgba(249,115,22,1)] animate-pulse" />
+                           <path d="M 100 20 L 70 40 L 90 80" fill="none" stroke="#eab308" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(234,179,8,1)]" />
+                           {/* Core burst in center */}
+                           <circle cx="50" cy="50" r="10" fill="url(#magmaGrad)" className="animate-pulse drop-shadow-[0_0_15px_rgba(255,100,0,1)]"/>
+                           <defs>
+                             <radialGradient id="magmaGrad">
+                               <stop offset="0%" stopColor="#fef08a" />
+                               <stop offset="50%" stopColor="#f97316" />
+                               <stop offset="100%" stopColor="#991b1b" />
+                             </radialGradient>
+                           </defs>
+                        </svg>
+
+                        {/* Obsidian chunks (3D overlay over the lava) */}
+                        <div className="absolute top-0 left-0 w-[40%] h-[30%] bg-zinc-900 border-b-2 border-r-2 border-zinc-700 shadow-[2px_2px_10px_rgba(0,0,0,0.9)]" />
+                        <div className="absolute bottom-0 right-0 w-[50%] h-[40%] bg-zinc-950 border-t-2 border-l-2 border-zinc-800 shadow-[-2px_-2px_10px_rgba(0,0,0,0.9)]" />
+                        <div className="absolute top-[20%] right-0 w-[30%] h-[30%] bg-black border-l-2 border-b-2 border-zinc-800 rounded-bl-lg" />
                       </div>
                     )}
-                    {/* DESERT */}
+
+                    {/* DESERT (ProMax) */}
                     {theme === 'desert' && (
-                      <div className="w-full h-full bg-[#d4a373] border-[3px] border-t-[#faedcb] border-l-[#faedcb] border-b-[#a67c52] border-r-[#a67c52] relative flex flex-col items-center justify-center p-1">
-                         <div className="w-full h-[2px] bg-[#a67c52]/40 mb-1" />
-                         <div className="w-full h-[2px] bg-[#a67c52]/40 mb-1" />
-                         <div className="w-[2px] h-full bg-[#a67c52]/40 absolute" />
-                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.15)_100%)]" />
+                      <div className="w-full h-full bg-gradient-to-br from-[#e6cc98] to-[#c29b62] border-[4px] border-t-[#fdf1d6] border-l-[#fdf1d6] border-b-[#8b6534] border-r-[#a67c52] relative flex flex-col items-center justify-center p-1 overflow-hidden">
+                         {/* Egyptian/Ancient Gold Inlay */}
+                         <div className="absolute inset-1 border-[2px] border-[#d4af37] shadow-[inset_0_0_5px_rgba(139,69,19,0.8),0_0_3px_rgba(255,215,0,0.6)] flex items-center justify-center">
+                            {/* Inner hieroglyph geometry */}
+                            <svg viewBox="0 0 100 100" className="w-[80%] h-[80%]">
+                              {/* Eye of Horus / Pyramid abstraction */}
+                              <polygon points="50,15 85,75 15,75" fill="none" stroke="#b8860b" strokeWidth="6" className="drop-shadow-[0_2px_1px_rgba(255,255,255,0.4)]" />
+                              <circle cx="50" cy="55" r="10" fill="#d4af37" className="drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]" />
+                              <path d="M 35 75 L 35 85 M 65 75 L 65 85" stroke="#b8860b" strokeWidth="4" />
+                            </svg>
+                         </div>
+                         {/* Corner gold studs */}
+                         <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-[#ffd700] rounded-sm shadow-sm" />
+                         <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-[#ffd700] rounded-sm shadow-sm" />
+                         <div className="absolute bottom-1 left-1 w-1.5 h-1.5 bg-[#ffd700] rounded-sm shadow-sm" />
+                         <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-[#ffd700] rounded-sm shadow-sm" />
                       </div>
                     )}
-                    {/* COSMIC */}
+
+                    {/* COSMIC (ProMax) */}
                     {theme === 'cosmic' && (
-                      <div className="w-full h-full bg-slate-900 border-[2px] border-purple-500 relative flex items-center justify-center shadow-[inset_0_0_10px_rgba(168,85,247,0.5)]">
-                        <div className="absolute w-[60%] h-[60%] border border-cyan-400 rotate-45 flex items-center justify-center">
-                           <div className="w-1.5 h-1.5 bg-pink-500 rounded-full shadow-[0_0_5px_rgba(236,72,153,1)] animate-ping" />
-                        </div>
-                        <div className="absolute top-1 left-1 w-1 h-1 bg-cyan-300 rounded-full shadow-[0_0_3px_rgba(103,232,249,1)]" />
-                        <div className="absolute bottom-1 right-1 w-1 h-1 bg-cyan-300 rounded-full shadow-[0_0_3px_rgba(103,232,249,1)]" />
+                      <div className="w-full h-full bg-[#0a0514] border-[3px] border-purple-600 relative flex items-center justify-center overflow-hidden shadow-[inset_0_0_20px_rgba(168,85,247,0.8)]">
+                        {/* Sci-fi grid background */}
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(168,85,247,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.2)_1px,transparent_1px)] bg-[size:8px_8px]" />
+                        
+                        {/* Spinning holographic rings */}
+                        <div className="absolute w-[80%] h-[80%] border-2 border-cyan-400 rounded-full border-t-transparent border-b-transparent animate-[spin_3s_linear_infinite] drop-shadow-[0_0_5px_rgba(34,211,238,1)]" />
+                        <div className="absolute w-[60%] h-[60%] border-2 border-fuchsia-500 rounded-full border-l-transparent border-r-transparent animate-[spin_2s_linear_infinite_reverse] drop-shadow-[0_0_5px_rgba(217,70,239,1)]" />
+                        
+                        {/* Pulsing Quantum Core */}
+                        <div className="w-3 h-3 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,1),0_0_25px_rgba(34,211,238,1)] animate-ping absolute" />
+                        <div className="w-2.5 h-2.5 bg-cyan-200 rounded-full shadow-[0_0_10px_rgba(34,211,238,1)] absolute" />
+                        
+                        {/* High-tech corner brackets */}
+                        <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-300" />
+                        <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyan-300" />
+                        <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-cyan-300" />
+                        <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-300" />
                       </div>
                     )}
                   </div>
