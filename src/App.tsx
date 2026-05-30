@@ -11,6 +11,8 @@ import { StoreScreen } from './components/StoreScreen';
 import { LevelSelectScreen } from './components/LevelSelectScreen';
 import { initAudio, startBattleMusic, startStoreMusic, stopAllMusic, playMenuSelectSFX, playTick, playExplosionSFX, playCrateDestroySFX, playCoinSFX, playVictoryJingle, playDefeatJingle } from './utils/audio';
 import { AuthModal } from './components/AuthModal';
+import { BugReportModal } from './components/BugReportModal';
+import { Bug } from 'lucide-react';
 import { auth, db } from './services/firebase';
 import { onAuthStateChanged, User, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -46,6 +48,9 @@ export default function App() {
 
   // Whether we're showing the level selection screen
   const [showLevelSelect, setShowLevelSelect] = useState(false);
+
+  // Bug Report State
+  const [showBugReport, setShowBugReport] = useState(false);
 
   // Store & Customization State — persisted in localStorage
   const [showStore, setShowStore] = useState(false);
@@ -1127,6 +1132,31 @@ export default function App() {
           />
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {showBugReport && (
+          <BugReportModal
+            onClose={() => setShowBugReport(false)}
+            user={user}
+            playerName={playerName}
+            gameState={{
+              level,
+              score,
+              coins,
+              playerPos,
+              equippedSkin: equippedSkin.id
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      <button
+        onClick={() => setShowBugReport(true)}
+        className="fixed bottom-4 left-4 z-50 p-3 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-700/50 hover:border-emerald-500/50 rounded-full backdrop-blur-md shadow-lg transition-all hover:scale-110 active:scale-95 group"
+        title="Reportar Bug o Soporte"
+      >
+        <Bug className="w-6 h-6 group-hover:animate-pulse" />
+      </button>
     </div>
   );
 }

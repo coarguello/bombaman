@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { X, Mail, Lock, Loader2, User as UserIcon, Eye, EyeOff } from 'lucide-react';
 import { 
