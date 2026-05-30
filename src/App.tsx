@@ -40,9 +40,9 @@ export default function App() {
   const [tileSize, setTileSize] = useState(40);
   const [destroyedCrates, setDestroyedCrates] = useState<{ id: string; x: number; y: number }[]>([]);
 
-  // Max level the player has unlocked (persisted)
+  // Max level the player has unlocked (persisted) — all 25 levels unlocked by default
   const [maxUnlockedLevel, setMaxUnlockedLevel] = useState<number>(
-    () => Math.max(7, Number(localStorage.getItem('bombaman_max_level') ?? 7) || 7)
+    () => Math.max(25, Number(localStorage.getItem('bombaman_max_level') ?? 25) || 25)
   );
   useEffect(() => { localStorage.setItem('bombaman_max_level', String(maxUnlockedLevel)); }, [maxUnlockedLevel]);
 
