@@ -48,49 +48,124 @@ export function SteelBlock({ theme, x, y }: SteelBlockProps) {
   }
 
   if (theme === 'jungle') {
-    const runeVG = [
-      <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="currentColor" strokeWidth="4" />, // Diamond
-      <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="4" />, // Circle
-      <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="4" />, // Square
-      <polygon points="50,10 90,90 10,90" fill="none" stroke="currentColor" strokeWidth="4" />, // Triangle
-      <path d="M 20 50 L 80 50 M 50 20 L 50 80" stroke="currentColor" strokeWidth="4" />, // Cross
-      <path d="M 30 30 Q 50 10 70 30 T 70 70 T 30 70 T 30 30" fill="none" stroke="currentColor" strokeWidth="4" />, // Curved shape
-      <polygon points="50,20 80,80 20,80" fill="currentColor" opacity="0.5" stroke="currentColor" strokeWidth="2" />, // Solid Tri
-      <circle cx="50" cy="50" r="25" fill="currentColor" opacity="0.5" stroke="currentColor" strokeWidth="2" />, // Solid Circle
-      <rect x="30" y="30" width="40" height="40" fill="currentColor" opacity="0.5" stroke="currentColor" strokeWidth="2" />, // Solid Rect
-      <path d="M 50 10 L 60 40 L 90 50 L 60 60 L 50 90 L 40 60 L 10 50 L 40 40 Z" fill="none" stroke="currentColor" strokeWidth="4" /> // Star
-    ];
+    // 10 variations of jungle rocks: different combinations of moss, leaves and vines, NO symbols
+    const baseBg = ['#3d4a38','#424e3c','#3a4535','#455040','#3f4b3a','#465142','#3c4837','#435040','#3b4636','#46523f'];
+    const borderT = ['#5a6854','#5f6e58','#576451','#627060','#5c6a55','#647265','#596654','#617060','#576452','#667471'];
+    const borderB = ['#232a20','#252d22','#20271e','#282f24','#242b21','#2a3026','#222920','#272e24','#222820','#2b3227'];
 
-    const runeColors = [
-      'text-green-500 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]',
-      'text-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]',
-      'text-emerald-400 drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]',
-      'text-lime-500 drop-shadow-[0_0_5px_rgba(132,204,22,0.8)]',
-      'text-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]'
+    // Each variation: a distinct foliage/moss pattern using only SVG shapes (no symbols)
+    const foliagePatterns = [
+      // 0: Heavy top overgrowth
+      <svg key="0" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M-5 -5 Q 20 2 20 18 Q 10 10 -5 -5Z" fill="#15803d"/>
+        <path d="M0 -5 Q 30 0 28 16 Q 18 8 0 -5Z" fill="#16a34a"/>
+        <path d="M20 -5 Q 45 5 42 22 Q 30 12 20 -5Z" fill="#14532d"/>
+        <path d="M35 -5 Q 45 8 40 20 Q 35 10 35 -5Z" fill="#166534"/>
+        <path d="M-5 12 Q 5 25 2 35 Q -3 28 -5 12Z" fill="#15803d" opacity="0.7"/>
+      </svg>,
+      // 1: Vines on sides
+      <svg key="1" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M-3 0 Q 5 10 3 20 Q 1 30 -3 40Z" fill="#14532d"/>
+        <path d="M-3 5 Q 8 15 6 25Z" fill="#15803d"/>
+        <path d="M43 0 Q 35 10 37 20 Q 39 30 43 40Z" fill="#166534"/>
+        <path d="M43 8 Q 32 18 34 28Z" fill="#15803d"/>
+        <path d="M10 -3 Q 15 5 12 10Z" fill="#16a34a"/>
+        <path d="M25 -3 Q 30 5 27 10Z" fill="#14532d"/>
+      </svg>,
+      // 2: Bottom dense bush
+      <svg key="2" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M-5 45 Q 5 28 15 43 Z" fill="#15803d"/>
+        <path d="M5 45 Q 18 25 28 43 Z" fill="#16a34a"/>
+        <path d="M20 45 Q 30 27 45 44 Z" fill="#14532d"/>
+        <path d="M30 45 Q 40 30 45 42 Z" fill="#166534"/>
+        <path d="M-5 35 Q 8 22 12 35Z" fill="#15803d" opacity="0.8"/>
+      </svg>,
+      // 3: Corner clusters
+      <svg key="3" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M-5 -5 Q 12 2 8 16 Q 2 8 -5 -5Z" fill="#15803d"/>
+        <path d="M-5 -5 Q 3 14 -2 22 Q -5 14 -5 -5Z" fill="#166534"/>
+        <path d="M45 -5 Q 28 3 32 16 Q 38 8 45 -5Z" fill="#14532d"/>
+        <path d="M45 45 Q 28 35 30 25 Q 40 32 45 45Z" fill="#16a34a"/>
+        <path d="M-5 45 Q 8 32 12 28 Q 4 38 -5 45Z" fill="#15803d"/>
+      </svg>,
+      // 4: Spiky fern leaves
+      <svg key="4" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M20 5 Q 8 15 10 25 Q 15 18 20 5Z" fill="#16a34a"/>
+        <path d="M20 5 Q 32 15 30 25 Q 25 18 20 5Z" fill="#14532d"/>
+        <path d="M20 5 Q 5 20 8 32 Q 14 22 20 5Z" fill="#15803d"/>
+        <path d="M20 5 Q 35 20 32 32 Q 26 22 20 5Z" fill="#166534"/>
+        <path d="M20 5 L 20 38" stroke="#1a6b2e" strokeWidth="1.5"/>
+      </svg>,
+      // 5: Thick moss carpet
+      <svg key="5" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <ellipse cx="8" cy="6" rx="10" ry="8" fill="#15803d" opacity="0.9"/>
+        <ellipse cx="22" cy="4" rx="9" ry="7" fill="#16a34a" opacity="0.9"/>
+        <ellipse cx="34" cy="7" rx="9" ry="8" fill="#14532d" opacity="0.9"/>
+        <ellipse cx="4" cy="34" rx="8" ry="7" fill="#166534" opacity="0.9"/>
+        <ellipse cx="36" cy="35" rx="8" ry="6" fill="#15803d" opacity="0.9"/>
+      </svg>,
+      // 6: Draping vines from top
+      <svg key="6" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M5 -2 Q 7 10 5 22 Q 3 30 6 40" stroke="#15803d" strokeWidth="2" fill="none"/>
+        <path d="M5 8 Q 0 14 -3 18" fill="#16a34a"/>
+        <path d="M5 18 Q 10 22 8 26" fill="#14532d"/>
+        <path d="M18 -2 Q 20 12 18 24 Q 16 32 19 40" stroke="#166534" strokeWidth="2" fill="none"/>
+        <path d="M18 6 Q 12 12 10 16" fill="#15803d"/>
+        <path d="M32 -2 Q 34 14 32 26 Q 30 34 33 40" stroke="#14532d" strokeWidth="2" fill="none"/>
+        <path d="M32 10 Q 38 16 40 20" fill="#16a34a"/>
+      </svg>,
+      // 7: Big tropical leaves
+      <svg key="7" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M2 2 Q 25 5 22 28 Q 10 18 2 2Z" fill="#15803d"/>
+        <path d="M38 2 Q 15 5 18 28 Q 30 18 38 2Z" fill="#14532d"/>
+        <path d="M2 38 Q 20 20 38 38 Q 20 30 2 38Z" fill="#166534"/>
+        <path d="M2 2 L 22 28" stroke="#22c55e" strokeWidth="0.8" opacity="0.5"/>
+        <path d="M38 2 L 18 28" stroke="#22c55e" strokeWidth="0.8" opacity="0.5"/>
+      </svg>,
+      // 8: Flower buds
+      <svg key="8" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <circle cx="8" cy="8" r="5" fill="#15803d"/>
+        <circle cx="32" cy="8" r="5" fill="#16a34a"/>
+        <circle cx="8" cy="32" r="5" fill="#166534"/>
+        <circle cx="32" cy="32" r="5" fill="#14532d"/>
+        <circle cx="20" cy="20" r="4" fill="#15803d"/>
+        <circle cx="8" cy="8" r="2" fill="#4ade80" opacity="0.8"/>
+        <circle cx="32" cy="8" r="2" fill="#86efac" opacity="0.8"/>
+        <circle cx="8" cy="32" r="2" fill="#4ade80" opacity="0.8"/>
+        <circle cx="32" cy="32" r="2" fill="#86efac" opacity="0.8"/>
+        <circle cx="20" cy="20" r="2" fill="#bbf7d0" opacity="0.8"/>
+      </svg>,
+      // 9: Mixed overgrowth all sides
+      <svg key="9" className="absolute inset-0 w-full h-full" viewBox="0 0 40 40" fill="none">
+        <path d="M-5 -5 Q 18 0 16 14 Q 6 6 -5 -5Z" fill="#15803d"/>
+        <path d="M45 -5 Q 22 0 24 14 Q 34 6 45 -5Z" fill="#166534"/>
+        <path d="M-5 45 Q 18 40 16 26 Q 6 34 -5 45Z" fill="#14532d"/>
+        <path d="M45 45 Q 22 40 24 26 Q 34 34 45 45Z" fill="#16a34a"/>
+        <path d="M-5 18 Q 4 20 2 28 Q -2 24 -5 18Z" fill="#15803d"/>
+        <path d="M45 18 Q 36 20 38 28 Q 42 24 45 18Z" fill="#166534"/>
+      </svg>
     ];
 
     return (
-      <div className="w-full h-full bg-[#4a5344] border-[4px] border-t-[#66725c] border-l-[#56614f] border-b-[#2e332a] border-r-[#383f33] relative flex items-center justify-center overflow-hidden">
-        <div className={`absolute inset-0 flex items-center justify-center opacity-80 animate-pulse ${runeColors[v % 5]}`}>
-           <svg viewBox="0 0 100 100" className="w-[70%] h-[70%]">
-             {runeVG[v]}
-             <circle cx="50" cy="50" r="5" fill="currentColor" />
-           </svg>
-        </div>
-        
-        <svg className="absolute inset-0 w-full h-full opacity-60" viewBox="0 0 100 100">
-          <path d={`M 0 ${10+v*5} L 30 35 L ${40-v} 10 L 60 50 L 100 ${40+v*2}`} fill="none" stroke="#1c1f19" strokeWidth="2" />
-          {v % 2 === 0 && <path d="M 20 100 L 40 70 L 30 50" fill="none" stroke="#1c1f19" strokeWidth="2" />}
+      <div
+        className="w-full h-full relative flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundColor: baseBg[v],
+          borderTop: `4px solid ${borderT[v]}`,
+          borderLeft: `4px solid ${borderT[v]}`,
+          borderBottom: `4px solid ${borderB[v]}`,
+          borderRight: `4px solid ${borderB[v]}`,
+        }}
+      >
+        {/* Stone cracks - subtle, vary by variant */}
+        <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 100 100">
+          <path d={`M ${5+v*8} 0 L ${20+v*5} ${30+v*2} L ${10+v*3} ${60+v} L ${35+v*4} 100`} fill="none" stroke="#1c1f19" strokeWidth="2"/>
+          {v % 3 === 0 && <path d="M 0 40 L 25 55 L 15 80" fill="none" stroke="#1c1f19" strokeWidth="1.5"/>}
+          {v % 2 === 0 && <path d="M 70 0 L 80 30 L 60 50" fill="none" stroke="#1c1f19" strokeWidth="1.5"/>}
         </svg>
 
-        <svg className="absolute inset-0 w-full h-full drop-shadow-[0_3px_3px_rgba(0,0,0,0.7)]" viewBox="0 0 40 40" fill="none">
-          {v % 2 !== 0 && <path d="M-5 -5 Q 15 5 10 20 Q 5 15 -5 -5 Z" fill="#14532d" />}
-          {v % 3 !== 0 && <path d="M-5 -5 Q 5 15 0 25 Q -5 15 -5 -5 Z" fill="#166534" />}
-          {v % 4 !== 0 && <path d="M45 -5 Q 25 5 30 20 Q 35 15 45 -5 Z" fill="#14532d" />}
-          {v % 5 !== 0 && <path d="M-5 45 Q 10 30 25 45 Z" fill="#14532d" />}
-          {v % 2 === 0 && <path d="M45 45 Q 30 30 15 45 Z" fill="#166534" />}
-          <path d="M5 -5 Q 20 0 15 15 Q 10 5 5 -5 Z" fill="#15803d" />
-        </svg>
+        {/* Foliage overlay - 10 unique patterns, no symbols */}
+        {foliagePatterns[v]}
       </div>
     );
   }

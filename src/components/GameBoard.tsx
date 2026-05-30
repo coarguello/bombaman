@@ -67,7 +67,7 @@ export function GameBoard({
 
   const getEmptyTileStyles = () => {
     switch (theme) {
-      case 'jungle': return 'bg-zinc-900/50 border border-emerald-900/40 shadow-[inset_0_0_10px_rgba(6,78,59,0.1)]';
+      case 'jungle': return 'bg-[#1a2e1a] border border-emerald-950';
       case 'underworld': return 'bg-stone-900/60 border border-red-900/20';
       case 'desert': return 'bg-yellow-950/40 border border-yellow-900/30';
       case 'cosmic': return 'bg-indigo-950/30 border border-purple-900/30';
