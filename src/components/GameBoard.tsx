@@ -66,7 +66,7 @@ export function GameBoard({
 
   const getEmptyTileStyles = () => {
     switch (theme) {
-      case 'jungle': return 'bg-green-950/40 border border-green-900/30';
+      case 'jungle': return 'bg-zinc-900/50 border border-emerald-900/40 shadow-[inset_0_0_10px_rgba(6,78,59,0.1)]';
       case 'underworld': return 'bg-stone-900/60 border border-red-900/20';
       case 'desert': return 'bg-yellow-950/40 border border-yellow-900/30';
       case 'cosmic': return 'bg-indigo-950/30 border border-purple-900/30';
@@ -117,16 +117,26 @@ export function GameBoard({
                     )}
                     {/* JUNGLE */}
                     {theme === 'jungle' && (
-                      <div className="w-full h-full bg-stone-600 border-[3px] border-t-stone-500 border-l-stone-500 border-b-stone-800 border-r-stone-800 relative">
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.4)_100%)]" />
-                        {/* Vines */}
-                        <div className="absolute top-0 left-1 w-2 h-4 bg-green-700/90 rounded-b-full shadow-sm" />
-                        <div className="absolute top-0 right-2 w-1.5 h-3 bg-green-800/90 rounded-b-full shadow-sm" />
-                        <div className="absolute bottom-0 right-1 w-2.5 h-3 bg-green-600/90 rounded-t-full shadow-sm" />
-                        <div className="absolute top-2 left-0 w-3 h-1.5 bg-green-700/90 rounded-r-full shadow-sm" />
-                        {/* Moss spots */}
-                        <div className="absolute bottom-2 left-2 w-3 h-2 bg-green-800/70 rounded-full blur-[1px]" />
-                        <div className="absolute top-3 right-3 w-4 h-3 bg-green-900/70 rounded-full blur-[1px]" />
+                      <div className="w-full h-full bg-stone-500 border-[3px] border-t-stone-400 border-l-stone-400 border-b-stone-700 border-r-stone-700 relative flex items-center justify-center">
+                        {/* Crack in the stone */}
+                        <div className="absolute w-[80%] h-px bg-stone-700/50 rotate-12" />
+                        <div className="absolute w-px h-[60%] bg-stone-700/50 -rotate-12 left-2" />
+                        
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.2)_100%)]" />
+                        
+                        {/* Realistic leaves overlay (SVG) */}
+                        <svg className="absolute inset-0 w-full h-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          {/* Top-left vine */}
+                          <path d="M-2 -2 Q 6 2 4 12 Q 1 8 -2 -2 Z" fill="#15803d" />
+                          <path d="M0 -2 Q 10 4 8 16 Q 3 10 0 -2 Z" fill="#166534" />
+                          
+                          {/* Top-right vine */}
+                          <path d="M26 -2 Q 18 2 20 12 Q 23 8 26 -2 Z" fill="#15803d" />
+                          <path d="M24 -2 Q 14 4 16 16 Q 21 10 24 -2 Z" fill="#166534" />
+                          
+                          {/* Small side leaf */}
+                          <path d="M-2 14 Q 4 16 2 20 Q -1 18 -2 14 Z" fill="#14532d" />
+                        </svg>
                       </div>
                     )}
                     {/* UNDERWORLD */}
