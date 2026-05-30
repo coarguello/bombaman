@@ -16,364 +16,393 @@ export function SteelBlock({ theme, x, y }: SteelBlockProps) {
     );
   }
 
-  if (theme === 'jungle') {
-    // 10 hyper-realistic jungle rock variants — stone base + layered organic vegetation
-
-    // Stone base colors per variant (dark mossy rocks)
+  if (theme === 'ocean') {
+    // Stone base colors per variant (dark underwater rocks)
     const stoneBase = [
-      '#2e3529','#323a2c','#2c3427','#35402e','#303830','#2a3226','#363e30','#2d372a','#323b2d','#2b3428'
+      '#1a2a38','#162232','#1c2d3e','#152030','#1f3040','#131e2c','#1b2b3a','#17243a','#1e2f40','#141f2e'
     ];
     const stoneLightEdge = [
-      '#4a5542','#4f5c46','#475240','#56644a','#4c5a4c','#445040','#57614a','#4a5843','#4f5d46','#455241'
+      '#2e4a60','#264056','#325268','#243c52','#375870','#1e3448','#2c4862','#284258','#336070','#203648'
     ];
     const stoneDarkEdge = [
-      '#181e15','#1a2018','#171d14','#1c221a','#191f19','#161c14','#1d2119','#181f16','#1a2017','#171c15'
+      '#080e14','#060c10','#0a1018','#05090e','#0c1218','#040810','#080e16','#060a12','#0a1218','#04080e'
     ];
 
     const blocks = [
 
-      // 0: MOSSY BOULDER — thick green moss carpet on a cracked dark stone
+      // 0: CORAL BOULDER — dark rock smothered in vivid orange/pink coral branches
       <svg key="0" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
         <defs>
-          <radialGradient id="stone0" cx="40%" cy="35%" r="65%">
-            <stop offset="0%" stopColor="#4a5542"/>
-            <stop offset="100%" stopColor="#1e2419"/>
+          <radialGradient id="oc0" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stopColor="#2a4a60"/>
+            <stop offset="100%" stopColor="#0a1520"/>
           </radialGradient>
         </defs>
-        {/* Stone body */}
-        <rect width="100" height="100" fill="url(#stone0)"/>
-        {/* Main cracks */}
-        <path d="M20 0 L35 28 L22 55 L40 100" fill="none" stroke="#111" strokeWidth="2.5" opacity="0.8"/>
-        <path d="M35 28 L55 40" fill="none" stroke="#111" strokeWidth="1.5" opacity="0.6"/>
-        {/* Wet sheen top-left */}
-        <ellipse cx="28" cy="22" rx="18" ry="12" fill="white" opacity="0.04"/>
-        {/* Moss carpet — heavy top coverage */}
-        <ellipse cx="12" cy="8" rx="16" ry="11" fill="#1a5c2a" opacity="0.95"/>
-        <ellipse cx="38" cy="5" rx="18" ry="10" fill="#166534" opacity="0.95"/>
-        <ellipse cx="62" cy="7" rx="16" ry="11" fill="#15803d" opacity="0.95"/>
-        <ellipse cx="85" cy="9" rx="14" ry="10" fill="#1a5c2a" opacity="0.9"/>
-        <ellipse cx="10" cy="20" rx="10" ry="8" fill="#14532d" opacity="0.8"/>
-        <ellipse cx="70" cy="18" rx="12" ry="7" fill="#166534" opacity="0.7"/>
-        {/* Moss textures - bumps */}
-        <circle cx="15" cy="6" r="3" fill="#22c55e" opacity="0.3"/>
-        <circle cx="38" cy="4" r="4" fill="#4ade80" opacity="0.2"/>
-        <circle cx="60" cy="5" r="3" fill="#22c55e" opacity="0.25"/>
-        {/* Water drip */}
-        <path d="M35 15 Q36 28 35 38 Q34 45 36 55" stroke="#93c5fd" strokeWidth="0.8" fill="none" opacity="0.4"/>
-        <ellipse cx="36" cy="56" rx="2" ry="3" fill="#bfdbfe" opacity="0.3"/>
+        <rect width="100" height="100" fill="url(#oc0)"/>
+        {/* Rock cracks */}
+        <path d="M30 0 L42 30 L28 60 L45 100" fill="none" stroke="#060d14" strokeWidth="3" opacity="0.8"/>
+        <path d="M42 30 L65 42" fill="none" stroke="#060d14" strokeWidth="2" opacity="0.5"/>
+        {/* Coral branches — orange/red */}
+        <path d="M15 100 Q18 75 15 60 Q12 48 18 35" stroke="#ea580c" strokeWidth="4" fill="none" strokeLinecap="round"/>
+        <path d="M18 35 Q10 25 8 15" stroke="#ea580c" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <path d="M18 35 Q25 22 28 12" stroke="#f97316" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        <path d="M15 55 Q5 50 2 42" stroke="#ea580c" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        <path d="M15 55 Q22 48 26 40" stroke="#f97316" strokeWidth="2" fill="none" strokeLinecap="round"/>
+        {/* Coral tips */}
+        <circle cx="8" cy="15" r="3" fill="#fb923c" opacity="0.9"/>
+        <circle cx="28" cy="12" r="3" fill="#fed7aa" opacity="0.8"/>
+        <circle cx="2" cy="42" r="2.5" fill="#fb923c" opacity="0.9"/>
+        <circle cx="26" cy="40" r="2" fill="#fed7aa" opacity="0.8"/>
+        {/* Right pink coral */}
+        <path d="M80 100 Q78 80 82 65 Q85 52 78 38" stroke="#db2777" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
+        <path d="M78 38 Q72 25 75 12" stroke="#ec4899" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <path d="M78 38 Q88 28 92 18" stroke="#f9a8d4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        <circle cx="75" cy="12" r="3" fill="#fce7f3" opacity="0.9"/>
+        <circle cx="92" cy="18" r="2.5" fill="#fbcfe8" opacity="0.8"/>
+        {/* Algae at base */}
+        <ellipse cx="50" cy="97" rx="40" ry="6" fill="#065f46" opacity="0.7"/>
+        <ellipse cx="50" cy="95" rx="25" ry="4" fill="#059669" opacity="0.5"/>
+        {/* Bubble */}
+        <circle cx="55" cy="30" r="3" fill="none" stroke="#bae6fd" strokeWidth="1" opacity="0.5"/>
+        <circle cx="70" cy="15" r="2" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.4"/>
       </svg>,
 
-      // 1: VINE-WRAPPED STONE — thick vines coiling around a rough stone block
+      // 1: KELP ROCK — dark stone draped with flowing kelp strands
       <svg key="1" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
         <defs>
-          <linearGradient id="stone1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#404b38"/>
-            <stop offset="100%" stopColor="#1e2419"/>
+          <linearGradient id="oc1" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor="#091420"/>
+            <stop offset="100%" stopColor="#1a3346"/>
           </linearGradient>
         </defs>
-        <rect width="100" height="100" fill="url(#stone1)"/>
-        {/* Stone cracks */}
-        <path d="M60 0 L50 30 L70 60 L55 100" fill="none" stroke="#0f130d" strokeWidth="3" opacity="0.7"/>
-        <path d="M50 30 L30 45" fill="none" stroke="#0f130d" strokeWidth="1.5" opacity="0.5"/>
-        {/* Left vine main stem */}
-        <path d="M8 0 Q12 25 8 50 Q5 75 10 100" stroke="#166534" strokeWidth="5" fill="none" strokeLinecap="round"/>
-        <path d="M8 0 Q12 25 8 50 Q5 75 10 100" stroke="#22c55e" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.4"/>
-        {/* Left vine leaves */}
-        <path d="M8 18 Q-5 14 -2 8 Q4 12 8 18Z" fill="#15803d"/>
-        <path d="M8 18 Q18 10 20 4 Q14 10 8 18Z" fill="#16a34a"/>
-        <path d="M8 38 Q-4 32 -3 26 Q3 32 8 38Z" fill="#14532d"/>
-        <path d="M8 55 Q-6 48 -5 40 Q2 48 8 55Z" fill="#15803d"/>
-        <path d="M8 55 Q20 50 22 42 Q15 50 8 55Z" fill="#166534"/>
-        <path d="M9 75 Q0 68 2 60 Q7 68 9 75Z" fill="#15803d"/>
-        {/* Right vine */}
-        <path d="M90 0 Q86 30 90 60 Q93 80 88 100" stroke="#1a5c2a" strokeWidth="4" fill="none" strokeLinecap="round"/>
-        <path d="M90 22 Q100 16 98 10 Q94 16 90 22Z" fill="#15803d"/>
-        <path d="M90 45 Q102 38 100 30 Q95 38 90 45Z" fill="#166534"/>
-        <path d="M90 68 Q102 60 100 54 Q94 62 90 68Z" fill="#14532d"/>
-        {/* Top moss */}
-        <ellipse cx="50" cy="4" rx="35" ry="8" fill="#166534" opacity="0.8"/>
-        <ellipse cx="50" cy="4" rx="20" ry="5" fill="#16a34a" opacity="0.6"/>
+        <rect width="100" height="100" fill="url(#oc1)"/>
+        {/* Rock crack */}
+        <path d="M60 0 L50 35 L65 65 L55 100" fill="none" stroke="#04090e" strokeWidth="2.5" opacity="0.7"/>
+        {/* Kelp strands — dark green, wavy */}
+        <path d="M12 100 Q16 85 10 70 Q6 55 14 40 Q18 25 12 10" stroke="#166534" strokeWidth="6" fill="none" strokeLinecap="round"/>
+        <path d="M12 100 Q16 85 10 70 Q6 55 14 40 Q18 25 12 10" stroke="#15803d" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.5"/>
+        <path d="M22 100 Q26 82 20 65 Q15 50 22 35 Q27 20 22 5" stroke="#14532d" strokeWidth="5" fill="none" strokeLinecap="round"/>
+        <path d="M75 100 Q71 82 78 65 Q83 48 76 32 Q70 16 78 2" stroke="#166534" strokeWidth="5" fill="none" strokeLinecap="round"/>
+        <path d="M88 100 Q85 80 90 62 Q94 45 86 28 Q80 14 88 0" stroke="#15803d" strokeWidth="4" fill="none" strokeLinecap="round"/>
+        {/* Kelp blades (wider sections) */}
+        <ellipse cx="14" cy="40" rx="8" ry="3" fill="#166534" opacity="0.8" transform="rotate(-15 14 40)"/>
+        <ellipse cx="10" cy="65" rx="7" ry="2.5" fill="#14532d" opacity="0.8" transform="rotate(10 10 65)"/>
+        <ellipse cx="76" cy="32" rx="7" ry="2.5" fill="#15803d" opacity="0.8" transform="rotate(20 76 32)"/>
+        <ellipse cx="86" cy="55" rx="8" ry="3" fill="#166534" opacity="0.7" transform="rotate(-10 86 55)"/>
+        {/* Barnacles on rock */}
+        <circle cx="40" cy="50" r="4" fill="#374151" opacity="0.8"/>
+        <circle cx="40" cy="50" r="2" fill="#6b7280" opacity="0.6"/>
+        <circle cx="50" cy="35" r="3" fill="#374151" opacity="0.7"/>
+        <circle cx="50" cy="35" r="1.5" fill="#9ca3af" opacity="0.5"/>
+        {/* Bubbles */}
+        <circle cx="35" cy="20" r="2.5" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.45"/>
+        <circle cx="45" cy="8" r="1.8" fill="none" stroke="#e0f2fe" strokeWidth="0.7" opacity="0.4"/>
+        <circle cx="60" cy="25" r="2" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.35"/>
       </svg>,
 
-      // 2: CRACKED ANCIENT STONE — deep cracks with glowing moss inside them
+      // 2: BARNACLE ROCK — rough stone completely covered in barnacle clusters
       <svg key="2" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
         <defs>
-          <radialGradient id="stone2" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#3d4835"/>
-            <stop offset="100%" stopColor="#1a1f17"/>
+          <radialGradient id="oc2" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="#243848"/>
+            <stop offset="100%" stopColor="#08121c"/>
           </radialGradient>
         </defs>
-        <rect width="100" height="100" fill="url(#stone2)"/>
-        {/* Major cracks */}
-        <path d="M15 0 L30 22 L18 48 L35 70 L20 100" fill="none" stroke="#0d1109" strokeWidth="4" opacity="0.9"/>
-        <path d="M30 22 L60 30 L85 20" fill="none" stroke="#0d1109" strokeWidth="3" opacity="0.7"/>
-        <path d="M60 30 L72 55 L90 70" fill="none" stroke="#0d1109" strokeWidth="2.5" opacity="0.6"/>
-        {/* Glowing moss inside cracks */}
-        <path d="M15 0 L30 22 L18 48 L35 70 L20 100" fill="none" stroke="#22c55e" strokeWidth="1.5" opacity="0.35"/>
-        <path d="M30 22 L60 30 L85 20" fill="none" stroke="#4ade80" strokeWidth="1" opacity="0.25"/>
-        {/* Lichen patches */}
-        <ellipse cx="72" cy="60" rx="14" ry="10" fill="#4d7c0f" opacity="0.7"/>
-        <ellipse cx="72" cy="60" rx="8" ry="6" fill="#65a30d" opacity="0.6"/>
-        <circle cx="72" cy="60" r="3" fill="#84cc16" opacity="0.5"/>
-        <ellipse cx="20" cy="75" rx="12" ry="9" fill="#3f6212" opacity="0.6"/>
-        <ellipse cx="55" cy="85" rx="15" ry="8" fill="#4d7c0f" opacity="0.5"/>
-        {/* Top wet surface */}
-        <rect x="0" y="0" width="100" height="6" fill="#22c55e" opacity="0.15"/>
-        <ellipse cx="50" cy="3" rx="42" ry="4" fill="white" opacity="0.04"/>
-        {/* Water in cracks */}
-        <path d="M30 22 L60 30" stroke="#7dd3fc" strokeWidth="0.8" opacity="0.4"/>
-        <path d="M35 70 L20 100" stroke="#93c5fd" strokeWidth="0.7" opacity="0.3"/>
+        <rect width="100" height="100" fill="url(#oc2)"/>
+        {/* Rock crack */}
+        <path d="M20 0 L35 28 L22 60 L38 100" fill="none" stroke="#050b12" strokeWidth="3" opacity="0.8"/>
+        {/* Barnacle clusters — grey/white cone shapes */}
+        {[
+          [15,20],[30,15],[50,22],[68,18],[82,25],
+          [10,42],[28,48],[45,45],[62,50],[80,44],
+          [18,65],[35,70],[55,68],[72,72],[88,65],
+          [22,85],[40,90],[60,88],[78,85]
+        ].map(([cx,cy], i) => (
+          <g key={i}>
+            <ellipse cx={cx} cy={cy} rx={5-i%2} ry={7-i%2} fill="#4b5563" opacity="0.85"/>
+            <ellipse cx={cx} cy={cy-2} rx={3} ry={2} fill="#9ca3af" opacity="0.6"/>
+            <line x1={cx-2} y1={cy-4} x2={cx+2} y2={cy-4} stroke="#d1d5db" strokeWidth="0.8" opacity="0.5"/>
+          </g>
+        ))}
+        {/* Algae patches between barnacles */}
+        <ellipse cx="50" cy="55" rx="10" ry="6" fill="#064e3b" opacity="0.4"/>
+        <ellipse cx="30" cy="78" rx="8" ry="5" fill="#065f46" opacity="0.4"/>
+        {/* Water shimmer */}
+        <ellipse cx="50" cy="8" rx="42" ry="6" fill="white" opacity="0.03"/>
+        {/* Bubbles */}
+        <circle cx="55" cy="15" r="2" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.4"/>
+        <circle cx="70" cy="5" r="1.5" fill="none" stroke="#bae6fd" strokeWidth="0.7" opacity="0.35"/>
       </svg>,
 
-      // 3: MUSHROOM ROCK — stone covered with tiny jungle mushrooms and heavy bottom moss
+      // 3: SEA ANEMONE ROCK — dark rock with vivid red/purple anemone tentacles
       <svg key="3" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
         <defs>
-          <linearGradient id="stone3" x1="0%" y1="0%" x2="60%" y2="100%">
-            <stop offset="0%" stopColor="#424e3a"/>
-            <stop offset="100%" stopColor="#1d2319"/>
-          </linearGradient>
+          <radialGradient id="oc3" cx="45%" cy="55%" r="65%">
+            <stop offset="0%" stopColor="#1e3040"/>
+            <stop offset="100%" stopColor="#07111c"/>
+          </radialGradient>
         </defs>
-        <rect width="100" height="100" fill="url(#stone3)"/>
-        {/* Crack */}
-        <path d="M50 0 L45 35 L60 70 L50 100" fill="none" stroke="#111" strokeWidth="2" opacity="0.6"/>
-        {/* Bottom heavy moss */}
-        <ellipse cx="15" cy="96" rx="18" ry="10" fill="#166534" opacity="0.95"/>
-        <ellipse cx="42" cy="98" rx="20" ry="9" fill="#15803d" opacity="0.95"/>
-        <ellipse cx="68" cy="97" rx="18" ry="9" fill="#14532d" opacity="0.9"/>
-        <ellipse cx="90" cy="96" rx="14" ry="9" fill="#166534" opacity="0.9"/>
-        <ellipse cx="50" cy="88" rx="40" ry="8" fill="#1a5c2a" opacity="0.5"/>
-        {/* Mushroom 1 */}
-        <ellipse cx="22" cy="62" rx="9" ry="5" fill="#c2410c" opacity="0.9"/>
-        <ellipse cx="22" cy="62" rx="6" ry="3" fill="#ea580c" opacity="0.7"/>
-        <circle cx="22" cy="62" r="2" fill="#fed7aa" opacity="0.5"/>
-        <rect x="20" y="62" width="4" height="9" rx="2" fill="#f5f0e8" opacity="0.8"/>
-        {/* Mushroom 2 */}
-        <ellipse cx="55" cy="45" rx="7" ry="4" fill="#92400e" opacity="0.9"/>
-        <ellipse cx="55" cy="45" rx="4" ry="2.5" fill="#b45309" opacity="0.7"/>
-        <rect x="53" y="45" width="3" height="7" rx="1.5" fill="#fef3c7" opacity="0.8"/>
-        {/* Mushroom 3 */}
-        <ellipse cx="78" cy="72" rx="8" ry="4.5" fill="#7c2d12" opacity="0.9"/>
-        <rect x="76" y="72" width="4" height="8" rx="2" fill="#f5f0e8" opacity="0.8"/>
-        {/* White spots on mushrooms */}
-        <circle cx="20" cy="61" r="1.2" fill="white" opacity="0.7"/>
-        <circle cx="24" cy="63" r="1" fill="white" opacity="0.6"/>
-        <circle cx="75" cy="72" r="1" fill="white" opacity="0.6"/>
-        <circle cx="80" cy="73" r="0.8" fill="white" opacity="0.5"/>
-        {/* Moss patches */}
-        <ellipse cx="35" cy="30" rx="10" ry="7" fill="#166534" opacity="0.5"/>
-        <ellipse cx="80" cy="35" rx="9" ry="6" fill="#15803d" opacity="0.4"/>
+        <rect width="100" height="100" fill="url(#oc3)"/>
+        {/* Stone crack */}
+        <path d="M70 0 L60 30 L75 65 L62 100" fill="none" stroke="#040a10" strokeWidth="2.5" opacity="0.7"/>
+        {/* Anemone base */}
+        <ellipse cx="25" cy="85" rx="18" ry="8" fill="#7f1d1d" opacity="0.8"/>
+        <ellipse cx="25" cy="83" rx="12" ry="5" fill="#991b1b" opacity="0.7"/>
+        {/* Anemone tentacles — wavy upward */}
+        {[10,15,20,25,30,35,40].map((x, i) => (
+          <path key={i} d={`M${x} 83 Q${x+(i%2?3:-3)} ${70-i*3} ${x+(i%2?2:-2)} ${58-i*2}`}
+            stroke={i%2?"#dc2626":"#be185d"} strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        ))}
+        {/* Tentacle tips */}
+        {[10,15,20,25,30,35,40].map((x, i) => (
+          <ellipse key={i} cx={x+(i%2?2:-2)} cy={58-i*2} rx="3" ry="2"
+            fill={i%2?"#fca5a5":"#fbcfe8"} opacity="0.9"/>
+        ))}
+        {/* Second anemone — smaller, purple */}
+        <ellipse cx="75" cy="70" rx="14" ry="6" fill="#4c1d95" opacity="0.8"/>
+        {[65,70,75,80,85].map((x, i) => (
+          <path key={i} d={`M${x} 68 Q${x+(i%2?2:-2)} ${58-i*2} ${x+(i%2?1:-1)} ${48-i*2}`}
+            stroke={i%2?"#7c3aed":"#a855f7"} strokeWidth="2" fill="none" strokeLinecap="round"/>
+        ))}
+        {[65,70,75,80,85].map((x, i) => (
+          <ellipse key={i} cx={x+(i%2?1:-1)} cy={48-i*2} rx="2.5" ry="1.8"
+            fill={i%2?"#c4b5fd":"#e9d5ff"} opacity="0.9"/>
+        ))}
+        {/* Coral accent */}
+        <path d="M50 100 Q52 88 48 78 Q44 68 50 58" stroke="#0891b2" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <circle cx="50" cy="58" r="3" fill="#67e8f9" opacity="0.8"/>
+        {/* Bubbles */}
+        <circle cx="30" cy="40" r="2.5" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.5"/>
+        <circle cx="45" cy="25" r="2" fill="none" stroke="#e0f2fe" strokeWidth="0.7" opacity="0.4"/>
+        <circle cx="15" cy="15" r="1.5" fill="none" stroke="#bae6fd" strokeWidth="0.7" opacity="0.35"/>
       </svg>,
 
-      // 4: FERN-COVERED STONE — large tropical fern fronds cascading over the rock
+      // 4: STARFISH ROCK — volcanic ocean rock with starfish and urchins
       <svg key="4" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
         <defs>
-          <radialGradient id="stone4" cx="60%" cy="40%" r="70%">
-            <stop offset="0%" stopColor="#3e4a36"/>
-            <stop offset="100%" stopColor="#1b2018"/>
-          </radialGradient>
+          <linearGradient id="oc4" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#1c3040"/>
+            <stop offset="100%" stopColor="#06101a"/>
+          </linearGradient>
         </defs>
-        <rect width="100" height="100" fill="url(#stone4)"/>
-        {/* Stone crack */}
-        <path d="M80 0 L68 30 L80 60 L65 100" fill="none" stroke="#0e1209" strokeWidth="2.5" opacity="0.7"/>
-        {/* Main fern stems from bottom-left */}
-        <path d="M5 100 Q10 70 25 50" stroke="#166534" strokeWidth="3" fill="none" strokeLinecap="round"/>
-        <path d="M0 100 Q15 65 35 40" stroke="#15803d" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-        <path d="M10 100 Q5 75 15 55" stroke="#14532d" strokeWidth="2" fill="none" strokeLinecap="round"/>
-        {/* Fern fronds left side */}
-        <path d="M10 85 Q-5 78 -6 70 Q4 76 10 85Z" fill="#15803d"/>
-        <path d="M10 85 Q22 76 24 68 Q16 76 10 85Z" fill="#16a34a"/>
-        <path d="M12 72 Q0 65 -2 56 Q6 64 12 72Z" fill="#14532d"/>
-        <path d="M18 58 Q6 50 5 42 Q12 50 18 58Z" fill="#15803d"/>
-        <path d="M18 58 Q28 48 30 40 Q23 50 18 58Z" fill="#166534"/>
-        <path d="M22 46 Q10 38 10 30 Q17 38 22 46Z" fill="#16a34a"/>
-        <path d="M25 52 Q35 42 38 34 Q30 44 25 52Z" fill="#15803d"/>
-        {/* Right fern */}
-        <path d="M100 100 Q88 72 70 52" stroke="#1a5c2a" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-        <path d="M88 75 Q100 68 101 60 Q94 68 88 75Z" fill="#15803d"/>
-        <path d="M80 62 Q92 55 92 46 Q85 55 80 62Z" fill="#166534"/>
-        {/* Leaf veins */}
-        <path d="M10 85 L18 76" stroke="#22c55e" strokeWidth="0.6" opacity="0.4"/>
-        <path d="M12 72 L20 64" stroke="#22c55e" strokeWidth="0.6" opacity="0.4"/>
-        {/* Dew drops */}
-        <circle cx="24" cy="68" r="1.5" fill="#bfdbfe" opacity="0.6"/>
-        <circle cx="30" cy="40" r="1.2" fill="#bfdbfe" opacity="0.5"/>
+        <rect width="100" height="100" fill="url(#oc4)"/>
+        {/* Crack */}
+        <path d="M40 0 L32 25 L48 50 L35 80 L45 100" fill="none" stroke="#040c14" strokeWidth="3" opacity="0.8"/>
+        {/* Starfish — orange, 5 arms */}
+        {[0,1,2,3,4].map(i => {
+          const angle = (i * 72 - 90) * Math.PI / 180;
+          const cx = 30, cy = 35, r = 14;
+          return <path key={i} d={`M${cx} ${cy} L${cx + r*Math.cos(angle)} ${cy + r*Math.sin(angle)}`}
+            stroke="#f97316" strokeWidth="8" strokeLinecap="round" opacity="0.9"/>;
+        })}
+        <circle cx="30" cy="35" r="6" fill="#fb923c" opacity="0.9"/>
+        <circle cx="30" cy="35" r="3" fill="#fed7aa" opacity="0.7"/>
+        {/* Sea urchin — dark spiky ball */}
+        <circle cx="72" cy="68" r="10" fill="#1f2937" opacity="0.9"/>
+        <circle cx="72" cy="68" r="7" fill="#374151" opacity="0.8"/>
+        {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg, i) => {
+          const angle = deg * Math.PI / 180;
+          return <line key={i} x1={72 + 7*Math.cos(angle)} y1={68 + 7*Math.sin(angle)}
+            x2={72 + 14*Math.cos(angle)} y2={68 + 14*Math.sin(angle)}
+            stroke="#9ca3af" strokeWidth="1.2" opacity="0.7"/>;
+        })}
+        {/* Algae */}
+        <ellipse cx="55" cy="95" rx="30" ry="6" fill="#064e3b" opacity="0.6"/>
+        <path d="M20 95 Q22 80 18 68 Q15 58 20 48" stroke="#059669" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <path d="M85 95 Q83 78 87 62" stroke="#065f46" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        {/* Bubbles */}
+        <circle cx="60" cy="20" r="3" fill="none" stroke="#bae6fd" strokeWidth="1" opacity="0.5"/>
+        <circle cx="80" cy="35" r="2" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.4"/>
+        <circle cx="50" cy="8" r="2.5" fill="none" stroke="#e0f2fe" strokeWidth="0.8" opacity="0.35"/>
       </svg>,
 
-      // 5: WATER-SOAKED ROCK — glistening wet stone with algae and water drips
+      // 5: BIOLUMINESCENT DEEP ROCK — pitch-black abyssal stone with glowing patches
       <svg key="5" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
         <defs>
-          <linearGradient id="stone5" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3a4532"/>
-            <stop offset="100%" stopColor="#161c13"/>
-          </linearGradient>
-          <linearGradient id="wet5" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.25"/>
-            <stop offset="100%" stopColor="#7dd3fc" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="100" height="100" fill="url(#stone5)"/>
-        {/* Wet overlay */}
-        <rect width="100" height="100" fill="url(#wet5)"/>
-        {/* Cracks */}
-        <path d="M40 0 L32 20 L48 45 L30 80 L42 100" fill="none" stroke="#0c100a" strokeWidth="3" opacity="0.8"/>
-        <path d="M32 20 L10 35" fill="none" stroke="#0c100a" strokeWidth="2" opacity="0.5"/>
-        {/* Algae patches — yellowish-green */}
-        <ellipse cx="70" cy="25" rx="18" ry="12" fill="#65a30d" opacity="0.55"/>
-        <ellipse cx="70" cy="25" rx="10" ry="7" fill="#84cc16" opacity="0.4"/>
-        <ellipse cx="18" cy="60" rx="16" ry="11" fill="#4d7c0f" opacity="0.5"/>
-        <ellipse cx="80" cy="70" rx="14" ry="9" fill="#65a30d" opacity="0.45"/>
-        {/* Water drips - multiple streams */}
-        <path d="M25 0 Q26 15 25 30 Q24 45 26 60" stroke="#93c5fd" strokeWidth="1.2" fill="none" opacity="0.5"/>
-        <ellipse cx="25.5" cy="61" rx="2.5" ry="3.5" fill="#bfdbfe" opacity="0.45"/>
-        <path d="M60 0 Q61 20 60 40 Q59 58 61 75" stroke="#7dd3fc" strokeWidth="1" fill="none" opacity="0.45"/>
-        <ellipse cx="60.5" cy="76" rx="2" ry="3" fill="#bfdbfe" opacity="0.4"/>
-        <path d="M82 10 Q83 28 81 45" stroke="#93c5fd" strokeWidth="0.8" fill="none" opacity="0.4"/>
-        {/* Wet highlight top */}
-        <ellipse cx="50" cy="8" rx="40" ry="7" fill="white" opacity="0.06"/>
-        {/* Small moss tufts */}
-        <circle cx="55" cy="60" r="5" fill="#166534" opacity="0.6"/>
-        <circle cx="55" cy="60" r="3" fill="#16a34a" opacity="0.5"/>
-        <circle cx="12" cy="18" r="4" fill="#15803d" opacity="0.55"/>
-      </svg>,
-
-      // 6: LICHEN-ENCRUSTED ROCK — pale grey-green lichen spreading across dark stone
-      <svg key="6" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-        <defs>
-          <radialGradient id="stone6" cx="45%" cy="45%" r="65%">
-            <stop offset="0%" stopColor="#3b4633"/>
-            <stop offset="100%" stopColor="#181e14"/>
+          <radialGradient id="oc5" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="#0e1f2c"/>
+            <stop offset="100%" stopColor="#030810"/>
           </radialGradient>
-        </defs>
-        <rect width="100" height="100" fill="url(#stone6)"/>
-        {/* Fine stone texture lines */}
-        <path d="M0 30 Q50 28 100 32" fill="none" stroke="#232a1e" strokeWidth="1" opacity="0.4"/>
-        <path d="M0 60 Q50 58 100 62" fill="none" stroke="#232a1e" strokeWidth="1" opacity="0.3"/>
-        {/* Main crack */}
-        <path d="M70 0 L58 35 L72 70 L60 100" fill="none" stroke="#0e1209" strokeWidth="3" opacity="0.7"/>
-        {/* Lichen patches — pale lime/grey-green */}
-        <ellipse cx="20" cy="35" rx="22" ry="16" fill="#7c9a2e" opacity="0.6"/>
-        <ellipse cx="20" cy="35" rx="14" ry="10" fill="#a3c644" opacity="0.45"/>
-        <ellipse cx="20" cy="35" rx="7" ry="5" fill="#bdd860" opacity="0.35"/>
-        <ellipse cx="75" cy="55" rx="18" ry="14" fill="#6e8c28" opacity="0.55"/>
-        <ellipse cx="75" cy="55" rx="10" ry="8" fill="#96b83a" opacity="0.4"/>
-        <ellipse cx="40" cy="80" rx="20" ry="12" fill="#7c9a2e" opacity="0.5"/>
-        <ellipse cx="40" cy="80" rx="11" ry="7" fill="#a3c644" opacity="0.4"/>
-        {/* Tiny lichen spots */}
-        <circle cx="50" cy="18" r="4" fill="#8fb030" opacity="0.5"/>
-        <circle cx="90" cy="22" r="3" fill="#7c9a2e" opacity="0.55"/>
-        <circle cx="8" cy="75" r="5" fill="#8fb030" opacity="0.5"/>
-        <circle cx="88" cy="85" r="4" fill="#7c9a2e" opacity="0.45"/>
-        {/* Dark patches between lichen */}
-        <circle cx="50" cy="50" r="6" fill="#111508" opacity="0.4"/>
-        {/* Light highlight */}
-        <ellipse cx="35" cy="18" rx="15" ry="8" fill="white" opacity="0.04"/>
-      </svg>,
-
-      // 7: ROOT-INVADED STONE — tree roots cracking and growing through the rock
-      <svg key="7" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-        <defs>
-          <radialGradient id="stone7" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#3f4a36"/>
-            <stop offset="100%" stopColor="#1a2016"/>
-          </radialGradient>
-        </defs>
-        <rect width="100" height="100" fill="url(#stone7)"/>
-        {/* Crack lines around roots */}
-        <path d="M20 0 L28 15" fill="none" stroke="#0c0f09" strokeWidth="2.5" opacity="0.7"/>
-        <path d="M50 0 L45 20 L50 40 L42 65 L50 100" fill="none" stroke="#0c0f09" strokeWidth="2" opacity="0.6"/>
-        {/* Main thick root from top-left */}
-        <path d="M5 0 Q20 20 15 45 Q10 65 25 85 Q35 95 50 100" stroke="#7c5c3a" strokeWidth="8" fill="none" strokeLinecap="round"/>
-        <path d="M5 0 Q20 20 15 45 Q10 65 25 85 Q35 95 50 100" stroke="#a07850" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.5"/>
-        {/* Root branch 1 */}
-        <path d="M15 45 Q35 42 55 50" stroke="#7c5c3a" strokeWidth="5" fill="none" strokeLinecap="round"/>
-        <path d="M15 45 Q35 42 55 50" stroke="#96704a" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.45"/>
-        {/* Root branch 2 */}
-        <path d="M55 50 Q70 48 85 55 Q95 62 100 75" stroke="#6b4e32" strokeWidth="4" fill="none" strokeLinecap="round"/>
-        {/* Root branch 3 */}
-        <path d="M25 85 Q40 80 60 85" stroke="#7c5c3a" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
-        {/* Thin secondary roots */}
-        <path d="M20 30 Q30 25 38 30" stroke="#8b6840" strokeWidth="2" fill="none" opacity="0.6"/>
-        <path d="M55 70 Q68 65 78 70" stroke="#7c5c3a" strokeWidth="2" fill="none" opacity="0.6"/>
-        {/* Moss around roots */}
-        <ellipse cx="8" cy="35" rx="8" ry="5" fill="#15803d" opacity="0.55"/>
-        <ellipse cx="28" cy="78" rx="9" ry="5" fill="#166534" opacity="0.5"/>
-        <ellipse cx="80" cy="68" rx="8" ry="5" fill="#14532d" opacity="0.5"/>
-        {/* Root bark texture marks */}
-        <path d="M8 12 Q10 8 12 12" stroke="#6b4e32" strokeWidth="0.8" fill="none" opacity="0.4"/>
-        <path d="M12 28 Q14 24 16 28" stroke="#6b4e32" strokeWidth="0.8" fill="none" opacity="0.4"/>
-      </svg>,
-
-      // 8: OVERGROWN RUIN STONE — ancient carved stone buried under tropical growth
-      <svg key="8" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-        <defs>
-          <linearGradient id="stone8" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#404b38"/>
-            <stop offset="100%" stopColor="#1c2319"/>
-          </linearGradient>
-        </defs>
-        <rect width="100" height="100" fill="url(#stone8)"/>
-        {/* Ancient carved lines (horizontal) */}
-        <line x1="0" y1="33" x2="100" y2="33" stroke="#252c20" strokeWidth="2" opacity="0.5"/>
-        <line x1="0" y1="66" x2="100" y2="66" stroke="#252c20" strokeWidth="2" opacity="0.5"/>
-        <line x1="33" y1="0" x2="33" y2="100" stroke="#252c20" strokeWidth="2" opacity="0.5"/>
-        <line x1="66" y1="0" x2="66" y2="100" stroke="#252c20" strokeWidth="2" opacity="0.5"/>
-        {/* Main crack diagonally */}
-        <path d="M10 0 L30 40 L15 80 L30 100" fill="none" stroke="#0a0d08" strokeWidth="3.5" opacity="0.8"/>
-        {/* Heavy corner vegetation */}
-        <path d="M-5 -5 Q22 2 18 22 Q8 12 -5 -5Z" fill="#15803d" opacity="0.9"/>
-        <path d="M-5 -5 Q2 18 -4 28 Q-6 16 -5 -5Z" fill="#166534" opacity="0.85"/>
-        <path d="M105 -5 Q80 3 82 22 Q92 12 105 -5Z" fill="#14532d" opacity="0.9"/>
-        <path d="M-5 105 Q20 82 22 68 Q10 80 -5 105Z" fill="#15803d" opacity="0.85"/>
-        <path d="M105 105 Q80 82 78 68 Q90 80 105 105Z" fill="#166534" opacity="0.85"/>
-        {/* Center tropical flower */}
-        <circle cx="50" cy="50" r="6" fill="#7c1d1d" opacity="0.7"/>
-        <circle cx="50" cy="50" r="3" fill="#f97316" opacity="0.6"/>
-        <circle cx="50" cy="50" r="1.5" fill="#fef08a" opacity="0.8"/>
-        <path d="M50 44 Q54 47 50 50Z" fill="#dc2626" opacity="0.6"/>
-        <path d="M56 50 Q53 54 50 50Z" fill="#dc2626" opacity="0.6"/>
-        <path d="M50 56 Q46 53 50 50Z" fill="#ef4444" opacity="0.5"/>
-        <path d="M44 50 Q47 46 50 50Z" fill="#ef4444" opacity="0.5"/>
-        {/* Vines over carved lines */}
-        <path d="M0 33 Q20 30 40 33" stroke="#15803d" strokeWidth="2" fill="none" opacity="0.5"/>
-        <path d="M60 66 Q80 64 100 66" stroke="#166534" strokeWidth="2" fill="none" opacity="0.5"/>
-        <circle cx="40" cy="33" r="2.5" fill="#16a34a" opacity="0.6"/>
-        <circle cx="80" cy="66" r="2.5" fill="#15803d" opacity="0.6"/>
-      </svg>,
-
-      // 9: DARK JUNGLE STONE — deep, almost black rock with neon-bright bioluminescent moss
-      <svg key="9" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-        <defs>
-          <radialGradient id="stone9" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#2e3829"/>
-            <stop offset="100%" stopColor="#111510"/>
-          </radialGradient>
-          <filter id="glow9">
-            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+          <filter id="glow5">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
             <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <rect width="100" height="100" fill="url(#stone9)"/>
+        <rect width="100" height="100" fill="url(#oc5)"/>
         {/* Deep cracks */}
-        <path d="M30 0 L22 28 L38 55 L20 100" fill="none" stroke="#070a06" strokeWidth="4" opacity="0.9"/>
-        <path d="M22 28 L55 38 L75 28" fill="none" stroke="#070a06" strokeWidth="3" opacity="0.7"/>
-        <path d="M55 38 L65 65 L80 100" fill="none" stroke="#070a06" strokeWidth="2.5" opacity="0.6"/>
-        {/* Bioluminescent moss — bright glowing green */}
-        <ellipse cx="50" cy="8" rx="30" ry="10" fill="#14532d" opacity="0.9"/>
-        <ellipse cx="50" cy="6" rx="20" ry="7" fill="#16a34a" opacity="0.7" filter="url(#glow9)"/>
-        <ellipse cx="50" cy="5" rx="12" ry="4" fill="#4ade80" opacity="0.5" filter="url(#glow9)"/>
-        {/* Side glow patches */}
-        <ellipse cx="8" cy="50" rx="10" ry="18" fill="#15803d" opacity="0.7"/>
-        <ellipse cx="8" cy="50" rx="5" ry="10" fill="#22c55e" opacity="0.5" filter="url(#glow9)"/>
-        <ellipse cx="92" cy="60" rx="10" ry="16" fill="#14532d" opacity="0.7"/>
-        <ellipse cx="92" cy="60" rx="5" ry="9" fill="#22c55e" opacity="0.45" filter="url(#glow9)"/>
-        {/* Bottom glow */}
-        <ellipse cx="50" cy="94" rx="32" ry="9" fill="#166534" opacity="0.8"/>
-        <ellipse cx="50" cy="96" rx="18" ry="5" fill="#16a34a" opacity="0.5" filter="url(#glow9)"/>
-        {/* Glowing crack moss */}
-        <path d="M30 0 L22 28 L38 55" fill="none" stroke="#4ade80" strokeWidth="1" opacity="0.3" filter="url(#glow9)"/>
-        {/* Water drip from top moss */}
-        <path d="M42 14 Q43 30 42 48" stroke="#7dd3fc" strokeWidth="0.8" fill="none" opacity="0.35"/>
-        <ellipse cx="42" cy="49" rx="1.8" ry="2.5" fill="#bfdbfe" opacity="0.3"/>
+        <path d="M50 0 L38 30 L55 60 L40 100" fill="none" stroke="#020508" strokeWidth="4" opacity="0.9"/>
+        <path d="M38 30 L15 45" fill="none" stroke="#020508" strokeWidth="2.5" opacity="0.6"/>
+        {/* Bioluminescent cyan patches */}
+        <ellipse cx="20" cy="30" rx="15" ry="10" fill="#0e7490" opacity="0.6"/>
+        <ellipse cx="20" cy="30" rx="8" ry="5" fill="#06b6d4" opacity="0.5" filter="url(#glow5)"/>
+        <ellipse cx="20" cy="30" rx="4" ry="2.5" fill="#67e8f9" opacity="0.7" filter="url(#glow5)"/>
+        {/* Bioluminescent blue patches */}
+        <ellipse cx="78" cy="55" rx="14" ry="9" fill="#1d4ed8" opacity="0.5"/>
+        <ellipse cx="78" cy="55" rx="7" ry="4.5" fill="#3b82f6" opacity="0.5" filter="url(#glow5)"/>
+        <ellipse cx="78" cy="55" rx="3" ry="2" fill="#93c5fd" opacity="0.8" filter="url(#glow5)"/>
+        {/* Green glow at bottom */}
+        <ellipse cx="50" cy="92" rx="35" ry="10" fill="#065f46" opacity="0.6"/>
+        <ellipse cx="50" cy="94" rx="20" ry="6" fill="#10b981" opacity="0.4" filter="url(#glow5)"/>
+        {/* Tiny glowing dots */}
+        <circle cx="62" cy="18" r="2" fill="#67e8f9" opacity="0.8" filter="url(#glow5)"/>
+        <circle cx="30" cy="70" r="2.5" fill="#34d399" opacity="0.7" filter="url(#glow5)"/>
+        <circle cx="85" cy="22" r="1.8" fill="#818cf8" opacity="0.8" filter="url(#glow5)"/>
+        <circle cx="15" cy="78" r="2" fill="#06b6d4" opacity="0.7" filter="url(#glow5)"/>
+        {/* Crack glow */}
+        <path d="M50 0 L38 30 L55 60" fill="none" stroke="#06b6d4" strokeWidth="1" opacity="0.3" filter="url(#glow5)"/>
+        {/* Bubbles */}
+        <circle cx="25" cy="10" r="3" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.5"/>
+        <circle cx="65" cy="5" r="2" fill="none" stroke="#bae6fd" strokeWidth="0.7" opacity="0.4"/>
+      </svg>,
+
+      // 6: MOSSY ANCHOR ROCK — stone with algae, clams, and an old rusted anchor
+      <svg key="6" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="oc6" cx="45%" cy="40%" r="65%">
+            <stop offset="0%" stopColor="#22384c"/>
+            <stop offset="100%" stopColor="#080f18"/>
+          </radialGradient>
+        </defs>
+        <rect width="100" height="100" fill="url(#oc6)"/>
+        {/* Crack */}
+        <path d="M25 0 L38 35 L25 70 L38 100" fill="none" stroke="#050c14" strokeWidth="3" opacity="0.7"/>
+        {/* Old rusted anchor — center */}
+        <line x1="60" y1="15" x2="60" y2="70" stroke="#92400e" strokeWidth="5" strokeLinecap="round"/>
+        <line x1="48" y1="25" x2="72" y2="25" stroke="#92400e" strokeWidth="4" strokeLinecap="round"/>
+        <path d="M60 70 Q48 75 46 85 M60 70 Q72 75 74 85" stroke="#92400e" strokeWidth="4" fill="none" strokeLinecap="round"/>
+        <circle cx="60" cy="15" r="6" fill="none" stroke="#92400e" strokeWidth="4"/>
+        {/* Rust patches */}
+        <ellipse cx="60" cy="45" rx="4" ry="6" fill="#7c2d12" opacity="0.5"/>
+        <ellipse cx="60" cy="25" rx="5" ry="3" fill="#78350f" opacity="0.4"/>
+        {/* Clams */}
+        <ellipse cx="20" cy="75" rx="10" ry="6" fill="#374151" opacity="0.9"/>
+        <path d="M10 75 Q20 68 30 75" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+        <ellipse cx="78" cy="82" rx="8" ry="5" fill="#4b5563" opacity="0.9"/>
+        <path d="M70 82 Q78 76 86 82" stroke="#9ca3af" strokeWidth="1.2" fill="none"/>
+        {/* Algae base */}
+        <ellipse cx="50" cy="97" rx="42" ry="5" fill="#064e3b" opacity="0.7"/>
+        <path d="M10 95 Q12 82 8 70 Q6 60 12 50" stroke="#059669" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        {/* Bubbles */}
+        <circle cx="48" cy="10" r="2" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.5"/>
+        <circle cx="35" cy="5" r="1.5" fill="none" stroke="#bae6fd" strokeWidth="0.7" opacity="0.4"/>
+      </svg>,
+
+      // 7: CRYSTAL ROCK — underwater geode with blue/teal crystal formations
+      <svg key="7" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="oc7" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#1a2f40"/>
+            <stop offset="100%" stopColor="#070e16"/>
+          </linearGradient>
+          <filter id="glow7">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="100" height="100" fill="url(#oc7)"/>
+        {/* Rock crack - geode opening */}
+        <path d="M30 0 L45 30 L30 65 L45 100" fill="none" stroke="#04090e" strokeWidth="3.5" opacity="0.8"/>
+        {/* Geode cavity - dark center */}
+        <ellipse cx="50" cy="50" rx="22" ry="28" fill="#050d14" opacity="0.7"/>
+        {/* Crystal clusters inside */}
+        <polygon points="40,72 36,45 44,45" fill="#0891b2" opacity="0.9"/>
+        <polygon points="40,72 44,45 48,45" fill="#06b6d4" opacity="0.8"/>
+        <polygon points="50,70 46,40 54,40" fill="#22d3ee" opacity="0.9" filter="url(#glow7)"/>
+        <polygon points="50,70 54,40 58,40" fill="#67e8f9" opacity="0.8"/>
+        <polygon points="60,72 56,48 64,48" fill="#0e7490" opacity="0.9"/>
+        <polygon points="60,72 64,48 68,48" fill="#0891b2" opacity="0.7"/>
+        <polygon points="44,68 41,52 47,52" fill="#a5f3fc" opacity="0.7" filter="url(#glow7)"/>
+        <polygon points="56,68 53,52 59,52" fill="#a5f3fc" opacity="0.7" filter="url(#glow7)"/>
+        {/* Crystal glow */}
+        <ellipse cx="50" cy="52" rx="14" ry="16" fill="#06b6d4" opacity="0.1" filter="url(#glow7)"/>
+        {/* Barnacles on outer rock */}
+        <circle cx="12" cy="30" r="4" fill="#374151" opacity="0.8"/>
+        <circle cx="12" cy="30" r="2" fill="#9ca3af" opacity="0.6"/>
+        <circle cx="88" cy="70" r="3.5" fill="#374151" opacity="0.8"/>
+        <circle cx="88" cy="70" r="1.8" fill="#9ca3af" opacity="0.5"/>
+        {/* Bubbles */}
+        <circle cx="25" cy="18" r="3" fill="none" stroke="#bae6fd" strokeWidth="1" opacity="0.5"/>
+        <circle cx="75" cy="10" r="2" fill="none" stroke="#e0f2fe" strokeWidth="0.8" opacity="0.45"/>
+        <circle cx="85" cy="25" r="1.5" fill="none" stroke="#bae6fd" strokeWidth="0.7" opacity="0.35"/>
+      </svg>,
+
+      // 8: SHIPWRECK ROCK — stone merged with old wood planks and rope
+      <svg key="8" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="oc8" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="#1d3044"/>
+            <stop offset="100%" stopColor="#081220"/>
+          </radialGradient>
+        </defs>
+        <rect width="100" height="100" fill="url(#oc8)"/>
+        {/* Rock cracks */}
+        <path d="M15 0 L28 25 L15 55 L30 100" fill="none" stroke="#040c14" strokeWidth="3" opacity="0.8"/>
+        {/* Old wooden planks embedded in rock */}
+        <rect x="42" y="10" width="40" height="8" rx="1" fill="#78350f" opacity="0.85" transform="rotate(-5 62 14)"/>
+        <rect x="45" y="22" width="38" height="7" rx="1" fill="#92400e" opacity="0.8" transform="rotate(-3 64 25)"/>
+        <rect x="40" y="34" width="35" height="6" rx="1" fill="#78350f" opacity="0.75" transform="rotate(-6 57 37)"/>
+        {/* Plank grain lines */}
+        <line x1="50" y1="11" x2="50" y2="17" stroke="#451a03" strokeWidth="0.8" opacity="0.5" transform="rotate(-5 50 14)"/>
+        <line x1="62" y1="11" x2="62" y2="17" stroke="#451a03" strokeWidth="0.8" opacity="0.5" transform="rotate(-5 62 14)"/>
+        {/* Iron nails */}
+        <circle cx="47" cy="14" r="2" fill="#374151" opacity="0.9"/>
+        <circle cx="78" cy="13" r="2" fill="#374151" opacity="0.9"/>
+        <circle cx="49" cy="26" r="2" fill="#4b5563" opacity="0.8"/>
+        {/* Rope wrapped around */}
+        <path d="M35 50 Q50 45 65 50 Q80 55 95 50" stroke="#78350f" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.8"/>
+        <path d="M35 55 Q50 50 65 55 Q80 60 95 55" stroke="#92400e" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6"/>
+        {/* Algae growth on planks */}
+        <ellipse cx="60" cy="14" rx="8" ry="3" fill="#065f46" opacity="0.4"/>
+        <ellipse cx="55" cy="26" rx="6" ry="2.5" fill="#064e3b" opacity="0.4"/>
+        {/* Bottom algae */}
+        <ellipse cx="50" cy="97" rx="42" ry="5" fill="#064e3b" opacity="0.7"/>
+        {/* Bubbles */}
+        <circle cx="25" cy="35" r="2.5" fill="none" stroke="#bae6fd" strokeWidth="0.8" opacity="0.5"/>
+        <circle cx="20" cy="20" r="1.8" fill="none" stroke="#bae6fd" strokeWidth="0.7" opacity="0.4"/>
+        <circle cx="35" cy="8" r="2" fill="none" stroke="#e0f2fe" strokeWidth="0.8" opacity="0.35"/>
+      </svg>,
+
+      // 9: DEEP VENT ROCK — hydrothermal rock with glowing orange vents and mineral deposits
+      <svg key="9" className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="oc9" cx="50%" cy="60%" r="65%">
+            <stop offset="0%" stopColor="#1c2a36"/>
+            <stop offset="100%" stopColor="#060d14"/>
+          </radialGradient>
+          <filter id="glow9b">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="100" height="100" fill="url(#oc9)"/>
+        {/* Rock cracks */}
+        <path d="M60 0 L48 30 L62 60 L50 100" fill="none" stroke="#030a10" strokeWidth="3" opacity="0.8"/>
+        <path d="M48 30 L20 40" fill="none" stroke="#030a10" strokeWidth="2" opacity="0.6"/>
+        {/* Vent openings */}
+        <ellipse cx="30" cy="70" rx="10" ry="7" fill="#0c0604" opacity="0.9"/>
+        <ellipse cx="30" cy="70" rx="6" ry="4" fill="#1c0a06" opacity="0.8"/>
+        <ellipse cx="70" cy="55" rx="8" ry="6" fill="#0c0604" opacity="0.9"/>
+        <ellipse cx="70" cy="55" rx="5" ry="3.5" fill="#1c0a06" opacity="0.8"/>
+        {/* Vent glow — hot orange */}
+        <ellipse cx="30" cy="70" rx="8" ry="5" fill="#ea580c" opacity="0.3" filter="url(#glow9b)"/>
+        <ellipse cx="70" cy="55" rx="6" ry="4" fill="#f97316" opacity="0.3" filter="url(#glow9b)"/>
+        {/* Smoke/steam from vents */}
+        <path d="M28 65 Q25 55 27 45 Q29 35 26 25" stroke="#d1d5db" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.2"/>
+        <path d="M32 64 Q35 52 32 40" stroke="#e5e7eb" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.15"/>
+        <path d="M70 50 Q67 38 69 28 Q71 18 68 8" stroke="#d1d5db" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.2"/>
+        {/* Mineral deposits — yellow/white sulfur */}
+        <ellipse cx="18" cy="40" rx="10" ry="6" fill="#854d0e" opacity="0.7"/>
+        <ellipse cx="18" cy="40" rx="6" ry="3.5" fill="#d97706" opacity="0.5"/>
+        <ellipse cx="82" cy="30" rx="9" ry="5" fill="#78350f" opacity="0.6"/>
+        <ellipse cx="82" cy="30" rx="5" ry="3" fill="#b45309" opacity="0.45"/>
+        {/* White mineral veins */}
+        <path d="M0 35 Q25 32 40 38" stroke="#e5e7eb" strokeWidth="1" fill="none" opacity="0.2"/>
+        <path d="M55 28 Q75 25 100 30" stroke="#f3f4f6" strokeWidth="1" fill="none" opacity="0.2"/>
+        {/* Tube worms near vent */}
+        <rect x="22" y="55" width="3" height="14" rx="1.5" fill="#b45309" opacity="0.8"/>
+        <rect x="27" y="58" width="3" height="12" rx="1.5" fill="#92400e" opacity="0.8"/>
+        <ellipse cx="23.5" cy="55" rx="3" ry="2" fill="#dc2626" opacity="0.7"/>
+        <ellipse cx="28.5" cy="58" rx="3" ry="2" fill="#b91c1c" opacity="0.7"/>
       </svg>,
     ];
 
@@ -392,7 +421,6 @@ export function SteelBlock({ theme, x, y }: SteelBlockProps) {
       </div>
     );
   }
-
   if (theme === 'underworld') {
     const crackPaths = [
       <path key="0" d="M 10 0 L 30 40 L 15 70 L 40 100" fill="none" stroke="currentColor" strokeWidth="4" className="drop-shadow-[0_0_8px_currentColor] animate-pulse" />,

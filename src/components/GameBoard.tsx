@@ -56,7 +56,7 @@ export function GameBoard({
 }: GameBoardProps) {
   const getBoardStyles = () => {
     switch (theme) {
-      case 'jungle': return 'bg-emerald-950 border-emerald-900 shadow-[0_0_50px_rgba(6,78,59,0.5)]';
+      case 'ocean': return 'bg-cyan-950 border-cyan-900 shadow-[0_0_50px_rgba(8,145,178,0.5)]';
       case 'underworld': return 'bg-stone-950 border-red-950 shadow-[0_0_50px_rgba(153,27,27,0.4)]';
       case 'desert': return 'bg-amber-950 border-amber-900 shadow-[0_0_50px_rgba(120,53,15,0.5)]';
       case 'cosmic': return 'bg-slate-950 border-purple-950 shadow-[0_0_50px_rgba(88,28,135,0.4)]';
@@ -67,7 +67,7 @@ export function GameBoard({
 
   const getEmptyTileStyles = () => {
     switch (theme) {
-      case 'jungle': return 'bg-[#1a2e1a] border border-emerald-950';
+      case 'ocean': return 'bg-[#071e2e] border border-cyan-950/60';
       case 'underworld': return 'bg-stone-900/60 border border-red-900/20';
       case 'desert': return 'bg-yellow-950/40 border border-yellow-900/30';
       case 'cosmic': return 'bg-indigo-950/30 border border-purple-900/30';
