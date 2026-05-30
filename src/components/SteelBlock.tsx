@@ -11,38 +11,14 @@ export function SteelBlock({ theme, x, y }: SteelBlockProps) {
   const v = (x * 13 + y * 31) % 10;
 
   if (theme === 'industrial') {
-    const coreColors = [
-      'from-orange-600 to-yellow-400 shadow-[0_0_5px_rgba(234,179,8,0.8)]',
-      'from-cyan-600 to-blue-400 shadow-[0_0_5px_rgba(56,189,248,0.8)]',
-      'from-green-600 to-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.8)]',
-      'from-purple-600 to-fuchsia-400 shadow-[0_0_5px_rgba(232,121,249,0.8)]',
-      'from-rose-600 to-pink-400 shadow-[0_0_5px_rgba(244,114,182,0.8)]',
-      'from-red-600 to-red-400 shadow-[0_0_5px_rgba(248,113,113,0.8)]',
-      'from-yellow-600 to-yellow-300 shadow-[0_0_5px_rgba(253,224,71,0.8)]',
-      'from-indigo-600 to-indigo-400 shadow-[0_0_5px_rgba(129,140,248,0.8)]',
-      'from-lime-600 to-lime-400 shadow-[0_0_5px_rgba(163,230,53,0.8)]',
-      'from-teal-600 to-teal-400 shadow-[0_0_5px_rgba(45,212,191,0.8)]',
-    ];
-
-    const hasTopStripes = v % 2 === 0;
-    const hasBottomStripes = v % 3 !== 0;
-
     return (
-      <div className="w-full h-full bg-zinc-700 border-[4px] border-t-zinc-400 border-l-zinc-500 border-b-zinc-900 border-r-zinc-800 flex items-center justify-center relative overflow-hidden">
-        {hasTopStripes && <div className="absolute top-0 left-0 w-full h-1.5 bg-[repeating-linear-gradient(45deg,#eab308,#eab308_4px,#000_4px,#000_8px)] opacity-80" />}
-        {hasBottomStripes && <div className="absolute bottom-0 left-0 w-full h-1.5 bg-[repeating-linear-gradient(-45deg,#eab308,#eab308_4px,#000_4px,#000_8px)] opacity-80" />}
-        
-        <div className="w-[60%] h-[60%] bg-zinc-950 border-2 border-zinc-900 rounded-sm shadow-[inset_0_0_8px_rgba(0,0,0,1)] flex flex-col justify-evenly p-1 relative">
-           <div className={`absolute inset-0 bg-white/10 blur-sm animate-pulse`} />
-           <div className={`w-full h-[20%] bg-gradient-to-r rounded-full ${coreColors[v]}`} />
-           <div className={`w-full h-[20%] bg-gradient-to-r rounded-full ${coreColors[(v+1)%10]}`} />
-           <div className={`w-full h-[20%] bg-gradient-to-r rounded-full ${coreColors[(v+2)%10]}`} />
+      <div className="w-full h-full bg-zinc-600 border-[3px] border-t-zinc-500 border-l-zinc-500 border-b-zinc-800 border-r-zinc-800 flex items-center justify-center">
+        <div className="w-[70%] h-[70%] border border-zinc-700 bg-zinc-500/50 flex flex-wrap content-between justify-between p-1">
+          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
+          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
         </div>
-        
-        <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className={`w-full h-[1px] bg-zinc-800 ${v%2===0?'rotate-45':''}`}/></div>
-        <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className={`w-full h-[1px] bg-zinc-800 ${v%3===0?'rotate-90':''}`}/></div>
-        <div className="absolute bottom-1 left-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className={`w-full h-[1px] bg-zinc-800 ${v%4===0?'-rotate-45':''}`}/></div>
-        <div className="absolute bottom-1 right-1 w-1.5 h-1.5 bg-zinc-300 rounded-full shadow-[inset_0_-1px_2px_rgba(0,0,0,0.8)] border border-zinc-900 flex items-center justify-center"><div className={`w-full h-[1px] bg-zinc-800 ${v%5===0?'rotate-12':''}`}/></div>
       </div>
     );
   }
