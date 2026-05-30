@@ -12,14 +12,7 @@ export function SteelBlock({ theme, x, y }: SteelBlockProps) {
 
   if (theme === 'industrial') {
     return (
-      <div className="w-full h-full bg-zinc-600 border-[3px] border-t-zinc-500 border-l-zinc-500 border-b-zinc-800 border-r-zinc-800 flex items-center justify-center">
-        <div className="w-[70%] h-[70%] border border-zinc-700 bg-zinc-500/50 flex flex-wrap content-between justify-between p-1">
-          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-          <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full" />
-        </div>
-      </div>
+      <div className="w-full h-full tile-steel" />
     );
   }
 
