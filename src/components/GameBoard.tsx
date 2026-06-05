@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { LogOut, Sparkles, Trophy } from 'lucide-react';
-import { TileType, EnemyType, Position, Bomb, Explosion, Enemy, SkinConfig } from '../types/game';
+import { TileType, EnemyType, Position, Bomb, Explosion, Enemy, SkinConfig, PowerUp } from '../types/game';
 import { GameTheme } from '../types/theme';
 import { GRID_SIZE, BOMB_TIMER } from '../constants/game';
 import { PlayerAvatar } from './PlayerAvatar';
@@ -16,6 +16,7 @@ interface GameBoardProps {
   enemies: Enemy[];
   bombs: Bomb[];
   explosions: Explosion[];
+  powerUps: PowerUp[];
   playerPos: Position;
   direction: 'up' | 'down' | 'left' | 'right';
   skin: SkinConfig;
@@ -40,6 +41,7 @@ export function GameBoard({
   enemies,
   bombs,
   explosions,
+  powerUps,
   playerPos,
   direction,
   skin,
@@ -443,6 +445,34 @@ export function GameBoard({
             </motion.div>
           );
         })}
+      </AnimatePresence>
+
+      {/* Render PowerUps */}
+      <AnimatePresence>
+        {powerUps.map(pu => (
+          <motion.div
+            key={pu.id}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            className="absolute z-10 flex items-center justify-center drop-shadow-md"
+            style={{
+              left: pu.x * tileSize + 8,
+              top: pu.y * tileSize + 8,
+              width: tileSize,
+              height: tileSize,
+            }}
+          >
+            <div className={`w-[60%] h-[60%] rounded-md flex items-center justify-center border-2 shadow-sm ${
+              pu.type === 'fire' ? 'bg-red-500 border-red-700 text-white font-bold' :
+              pu.type === 'bomb' ? 'bg-black border-zinc-700 text-white font-bold rounded-full' :
+              pu.type === 'skate' ? 'bg-blue-400 border-blue-600 text-white font-bold italic' :
+              'bg-amber-600 border-amber-800 text-white font-bold'
+            }`}>
+              {pu.type === 'fire' ? 'F' : pu.type === 'bomb' ? 'B' : pu.type === 'skate' ? 'S' : 'G'}
+            </div>
+          </motion.div>
+        ))}
       </AnimatePresence>
 
       {/* Render Explosions */}

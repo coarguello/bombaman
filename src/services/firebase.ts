@@ -13,9 +13,19 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase with guard clause
+let app;
+export let auth: any = null;
+export let db: any = null;
 
-// Initialize Firebase services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+try {
+    if (firebaseConfig.apiKey) {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+    } else {
+        console.warn("Firebase API Key is missing. Running in offline/mock mode.");
+    }
+} catch (error) {
+    console.error("Firebase initialization error:", error);
+}

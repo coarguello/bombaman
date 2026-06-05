@@ -158,6 +158,7 @@ export default function App() {
   const lastMoveTimeRef = useRef(0);
   const globalCratesRef = useRef(0);
   const directionRef = useRef<'up' | 'down' | 'left' | 'right'>('down');
+  const powerUpsRef = useRef<PowerUp[]>([]);
 
   // Power‑up state
   const [powerUps, setPowerUps] = useState<PowerUp[]>([]);
@@ -256,7 +257,8 @@ export default function App() {
     enemiesRef.current = enemies;
     isExitVisibleRef.current = isExitVisible;
     directionRef.current = direction;
-  }, [playerPos, isGameOver, gameStarted, enemies, isExitVisible, direction]);
+    powerUpsRef.current = powerUps;
+  }, [playerPos, isGameOver, gameStarted, enemies, isExitVisible, direction, powerUps]);
 
   // Initialize Grid / Level
   const initializeLevel = useCallback(() => {
@@ -409,6 +411,8 @@ export default function App() {
           cratesDestroyed++;
           __lastDestroyed = { x: nx, y: ny };
           
+          spawnPowerUp(nx, ny);
+
           const crateId = Math.random().toString(36).substr(2, 9);
           setDestroyedCrates(prev => [...prev, { id: crateId, x: nx, y: ny }]);
           setTimeout(() => {
@@ -481,6 +485,9 @@ export default function App() {
     // Check if player hit
     const isHit = explosionTiles.some(t => t.x === playerPosRef.current.x && t.y === playerPosRef.current.y);
     if (isHit) setIsGameOver(true);
+
+    // Destroy power-ups hit by explosion
+    setPowerUps(prev => prev.filter(pu => !explosionTiles.some(t => t.x === pu.x && t.y === pu.y)));
 
     // Check if enemies hit
     setEnemies(prev => {
@@ -643,10 +650,9 @@ export default function App() {
       if (currentCrates >= 500) moveCooldown = 40;
       else if (currentCrates >= 100) moveCooldown = 70;
       else if (currentCrates >= 5) moveCooldown = 100;
-      // Reduce cooldown si el jugador tiene Skate
-      if (hasSkate) {
-        moveCooldown = Math.round(moveCooldown * 0.7);
-      }
+      
+      if (hasGlove) moveCooldown = Math.floor(moveCooldown * 0.9);
+      if (hasSkate) moveCooldown = Math.floor(moveCooldown * 0.7);
 
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         if (now - lastMoveTimeRef.current < moveCooldown) return;
@@ -670,9 +676,9 @@ export default function App() {
         default: return;
       }
       // Recoger power‑up si hay uno en la casilla destino
-      const puIdx = powerUps.findIndex(p => p.x === nextX && p.y === nextY);
+      const puIdx = powerUpsRef.current.findIndex(p => p.x === nextX && p.y === nextY);
       if (puIdx !== -1) {
-        applyPowerUp(powerUps[puIdx]);
+        applyPowerUp(powerUpsRef.current[puIdx]);
       }
       // Empujar bomba si glove activo y hay bomba en la casilla destino
       if (hasGlove) {
@@ -687,6 +693,7 @@ export default function App() {
           if (canPush) {
             bomb.x = pushX;
             bomb.y = pushY;
+            setBombs([...bombsRef.current]);
           }
         }
       }
@@ -798,12 +805,17 @@ export default function App() {
           }
         }
         else if (enemy.type === EnemyType.D) {
-          // Sprinter: Try to maintain current movement if possible, or pick a random straight line
-          // For simplicity, just pick a random direction but it moves very fast (already handled by interval)
-          // We can favor moves that keep going in the same direction if we tracked it, but random fast is also effective.
-          // Let's implement straight line preference:
-          const lastDx = enemy.x - (nextEnemies[index].x || enemy.x); // simplistic check
-          // Just random for now, the 200ms interval makes it feel like a sprinter
+          // Sprinter: Move fast in straight lines until blocked, then pick new direction.
+          const dx = enemy.x - (nextEnemies[index].x || enemy.x);
+          const dy = enemy.y - (nextEnemies[index].y || enemy.y);
+          
+          let preferredMoves = directions.filter(d => d.dx === -dx && d.dy === -dy);
+          if (preferredMoves.length === 0 || (dx === 0 && dy === 0)) {
+            preferredMoves = directions;
+          }
+          
+          // Try preferred move first, if it fails, it will hit the wall and next interval will pick random
+          bestMove = preferredMoves[Math.floor(Math.random() * preferredMoves.length)];
         }
 
         const nx = enemy.x + bestMove.dx;
@@ -915,6 +927,11 @@ export default function App() {
         // Check spike immediately after being pushed
         if (spikesActive && gridRef.current[newPlayerPos.y]?.[newPlayerPos.x] === TileType.SPIKE) {
           setIsGameOver(true);
+        }
+        // Recoger power‑up
+        const puIdx = powerUpsRef.current.findIndex(p => p.x === newPlayerPos.x && p.y === newPlayerPos.y);
+        if (puIdx !== -1) {
+          applyPowerUp(powerUpsRef.current[puIdx]);
         }
       }
 
@@ -1089,6 +1106,7 @@ export default function App() {
               enemies={enemies}
               bombs={bombs}
               explosions={explosions}
+              powerUps={powerUps}
               playerPos={playerPos}
               direction={direction}
               skin={equippedSkin}
