@@ -139,97 +139,33 @@ export function GameBoard({
                   </div>
                 )}
 
-                {/* Spikes rendering */}
+                {/* Spikes rendering — CSS clip-path (lightweight) */}
                 {tile === TileType.SPIKE && (
-                  <div className="absolute inset-0 overflow-hidden">
-                    {/* Grid 2x2: cada celda ocupa 50% del tile, el spike se centra dentro */}
+                  <div className="absolute inset-0 overflow-hidden grid grid-cols-2 grid-rows-2 p-[2px] gap-[1px]">
                     {[0, 1, 2, 3].map((i) => {
-                      const col = i % 2;       // 0 = izquierda, 1 = derecha
-                      const row = Math.floor(i / 2); // 0 = arriba, 1 = abajo
-
-                      // Jitter determinístico pequeño (±8% de la mitad del tile)
                       const s1 = Math.sin((x * 17.3 + y * 41.7 + i * 23.9) * 43758.5453);
-                      const jitter = (s1 - Math.floor(s1) - 0.5) * 0.16;
-
-                      // Posición central del spike dentro de su cuadrante
-                      const cx = (col + 0.5 + jitter) * 50; // porcentaje horizontal
-                      const cy = (row + 0.5 + jitter) * 50; // porcentaje vertical
-
-                      // Tamaño del spike: ~35% del tile
-                      const sw = tileSize * 0.34;
-                      const sh = tileSize * 0.40;
-
-                      // Pequeña rotación aleatoria (±10°)
+                      const jitter = (s1 - Math.floor(s1) - 0.5) * 12;
                       const s2 = Math.sin((x * 5.3 + y * 9.1 + i * 7.7) * 43758.5453);
                       const rot = (s2 - Math.floor(s2) - 0.5) * 20;
-
-                      const activeColor   = '#ff2222';
-                      const inactiveColor = '#3f3f46';
-                      const activeGlow    = '0 0 6px rgba(255,60,60,0.8), 0 0 12px rgba(255,30,30,0.4)';
-                      const inactiveGlow  = '0 1px 3px rgba(0,0,0,0.6)';
-
-                      // IDs de gradiente únicos por tile e índice
-                      const gradIdAct = `sg-a-${x}-${y}-${i}`;
-                      const gradIdIna = `sg-i-${x}-${y}-${i}`;
-
                       return (
-                        <motion.svg
-                          key={i}
-                          viewBox="0 0 100 100"
-                          preserveAspectRatio="none"
-                          style={{
-                            position: 'absolute',
-                            width: sw,
-                            height: sh,
-                            left: `calc(${cx}% - ${sw / 2}px)`,
-                            top: `calc(${cy}% - ${sh / 2}px)`,
-                            originX: '50%',
-                            originY: '100%',
-                            rotate: rot,
-                            overflow: 'visible',
-                          }}
-                          animate={{
-                            scaleY: spikesActive ? 1 : 0.12,
-                            filter: spikesActive ? `drop-shadow(${activeGlow})` : `drop-shadow(${inactiveGlow})`,
-                          }}
-                          transition={{ type: 'spring', stiffness: 380, damping: 22, delay: i * 0.04 }}
-                        >
-                          <defs>
-                            {/* Gradiente activo (rojo) */}
-                            <linearGradient id={gradIdAct} x1="0%" y1="100%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#7f0000" />
-                              <stop offset="55%" stopColor="#ef4444" />
-                              <stop offset="100%" stopColor="#fca5a5" />
-                            </linearGradient>
-                            {/* Gradiente inactivo (gris metálico) */}
-                            <linearGradient id={gradIdIna} x1="0%" y1="100%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#18181b" />
-                              <stop offset="55%" stopColor="#52525b" />
-                              <stop offset="100%" stopColor="#a1a1aa" />
-                            </linearGradient>
-                          </defs>
-                          {/* Cuerpo del spike - cambia gradiente según estado */}
-                          <motion.polygon
-                            points="50,2 5,98 95,98"
-                            fill={spikesActive ? `url(#${gradIdAct})` : `url(#${gradIdIna})`}
-                            stroke={spikesActive ? 'rgba(220,38,38,0.4)' : 'rgba(82,82,91,0.3)'}
-                            strokeWidth="1.5"
-                            animate={{ opacity: spikesActive ? 1 : 0.55 }}
-                            transition={{ duration: 0.3 }}
+                        <div key={i} className="relative flex items-end justify-center">
+                          <div
+                            style={{
+                              width: '70%',
+                              height: spikesActive ? '85%' : '15%',
+                              background: spikesActive
+                                ? 'linear-gradient(to top, #7f0000, #ef4444, #fca5a5)'
+                                : 'linear-gradient(to top, #18181b, #52525b, #a1a1aa)',
+                              clipPath: 'polygon(50% 0%, 5% 100%, 95% 100%)',
+                              transform: `rotate(${rot}deg) translateX(${jitter * 0.3}px)`,
+                              transition: 'height 0.25s cubic-bezier(.34,1.56,.64,1), background 0.3s',
+                              boxShadow: spikesActive
+                                ? '0 0 6px rgba(255,60,60,0.7)'
+                                : '0 1px 3px rgba(0,0,0,0.5)',
+                              opacity: spikesActive ? 1 : 0.6,
+                            }}
                           />
-                          {/* Brillo especular en la cara izquierda */}
-                          <polygon
-                            points="50,2 20,55 50,55"
-                            fill="rgba(255,255,255,0.14)"
-                            style={{ pointerEvents: 'none' }}
-                          />
-                          {/* Línea de borde afilado en la punta */}
-                          <line
-                            x1="50" y1="2" x2="50" y2="30"
-                            stroke="rgba(255,255,255,0.25)"
-                            strokeWidth="1"
-                          />
-                        </motion.svg>
+                        </div>
                       );
                     })}
                   </div>

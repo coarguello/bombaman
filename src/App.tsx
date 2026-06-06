@@ -410,8 +410,6 @@ export default function App() {
           currentGrid[ny][nx] = TileType.EMPTY;
           cratesDestroyed++;
           __lastDestroyed = { x: nx, y: ny };
-          
-          spawnPowerUp(nx, ny);
 
           const crateId = Math.random().toString(36).substr(2, 9);
           setDestroyedCrates(prev => [...prev, { id: crateId, x: nx, y: ny }]);
@@ -847,8 +845,9 @@ export default function App() {
 
       if (hasChanged) {
         setEnemies(nextEnemies);
+        enemiesRef.current = nextEnemies;
       }
-    }, 100);
+    }, 150);
 
     return () => clearInterval(moveInterval);
   }, [gameStarted, isGameOver]);
