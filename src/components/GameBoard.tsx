@@ -399,13 +399,15 @@ export function GameBoard({
               height: tileSize,
             }}
           >
-            <div className={`w-[60%] h-[60%] rounded-md flex items-center justify-center border-2 shadow-sm ${
-              pu.type === 'fire' ? 'bg-red-500 border-red-700 text-white font-bold' :
-              pu.type === 'bomb' ? 'bg-black border-zinc-700 text-white font-bold rounded-full' :
-              pu.type === 'skate' ? 'bg-blue-400 border-blue-600 text-white font-bold italic' :
-              'bg-amber-600 border-amber-800 text-white font-bold'
+            <div className={`w-[75%] h-[75%] rounded-full flex items-center justify-center border-2 shadow-lg transition-all duration-300 animate-pulse ${
+              pu.type === 'fire' ? 'bg-red-950/80 border-red-500 text-lg shadow-red-500/30' :
+              pu.type === 'bomb' ? 'bg-zinc-950/80 border-zinc-400 text-lg shadow-zinc-400/30' :
+              pu.type === 'skate' ? 'bg-blue-950/80 border-blue-400 text-lg shadow-blue-400/30' :
+              'bg-amber-950/80 border-amber-500 text-lg shadow-amber-500/30'
             }`}>
-              {pu.type === 'fire' ? 'F' : pu.type === 'bomb' ? 'B' : pu.type === 'skate' ? 'S' : 'G'}
+              <span className="select-none leading-none scale-110">
+                {pu.type === 'fire' ? '🔥' : pu.type === 'bomb' ? '💣' : pu.type === 'skate' ? '🛼' : '🧤'}
+              </span>
             </div>
           </motion.div>
         ))}
